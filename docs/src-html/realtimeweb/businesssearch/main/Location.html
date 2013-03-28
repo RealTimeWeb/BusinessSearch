@@ -1,46 +1,41 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en">
-<head>
-<title>Source code</title>
-<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
-</head>
-<body>
-<div class="sourceContainer">
-<pre><span class="sourceLineNo">001</span>package realtimeweb.businesssearch.main;<a name="line.1"></a>
-<span class="sourceLineNo">002</span><a name="line.2"></a>
-<span class="sourceLineNo">003</span>import java.util.Map;<a name="line.3"></a>
-<span class="sourceLineNo">004</span><a name="line.4"></a>
-<span class="sourceLineNo">005</span>/**<a name="line.5"></a>
-<span class="sourceLineNo">006</span> * An interface representing a Location. The different locations possible are<a name="line.6"></a>
-<span class="sourceLineNo">007</span> * listed below, from least specific to most.<a name="line.7"></a>
-<span class="sourceLineNo">008</span> * <a name="line.8"></a>
-<span class="sourceLineNo">009</span> * &lt;ul&gt;<a name="line.9"></a>
-<span class="sourceLineNo">010</span> * &lt;li&gt;{@link NamedLocation} - Represented by a single string (e.g.<a name="line.10"></a>
-<span class="sourceLineNo">011</span> * "Blacksburg, VA")&lt;/li&gt;<a name="line.11"></a>
-<span class="sourceLineNo">012</span> * &lt;li&gt;{@link CoordinateLocation} - Represented by a single lat/long (e.g. 42,<a name="line.12"></a>
-<span class="sourceLineNo">013</span> * 45)&lt;/li&gt;<a name="line.13"></a>
-<span class="sourceLineNo">014</span> * &lt;li&gt;{@link RectangularLocation} - Represented by a pair of lat/longs (e.g.<a name="line.14"></a>
-<span class="sourceLineNo">015</span> * 42, 45 to 33, 37)&lt;/li&gt;<a name="line.15"></a>
-<span class="sourceLineNo">016</span> * &lt;li&gt;{@link realtimeweb.businesssearch.regular.DetailedLocation<a name="line.16"></a>
-<span class="sourceLineNo">017</span> * DetailedLocation} - Represented by a coordinate and a postal address&lt;/li&gt;<a name="line.17"></a>
-<span class="sourceLineNo">018</span> * &lt;/ul&gt;<a name="line.18"></a>
-<span class="sourceLineNo">019</span> * <a name="line.19"></a>
-<span class="sourceLineNo">020</span> * @author acbart<a name="line.20"></a>
-<span class="sourceLineNo">021</span> * <a name="line.21"></a>
-<span class="sourceLineNo">022</span> */<a name="line.22"></a>
-<span class="sourceLineNo">023</span>public interface Location {<a name="line.23"></a>
-<span class="sourceLineNo">024</span><a name="line.24"></a>
-<span class="sourceLineNo">025</span>        /**<a name="line.25"></a>
-<span class="sourceLineNo">026</span>         * &lt;b&gt; This is an internal method. Please ignore it.&lt;/b&gt;&lt;br&gt;&lt;br&gt;<a name="line.26"></a>
-<span class="sourceLineNo">027</span>         * <a name="line.27"></a>
-<span class="sourceLineNo">028</span>         * A method for converting the Location to a representation that can be used<a name="line.28"></a>
-<span class="sourceLineNo">029</span>         * to construct a query.<a name="line.29"></a>
-<span class="sourceLineNo">030</span>         * <a name="line.30"></a>
-<span class="sourceLineNo">031</span>         * @return A mapping between Yelp arguments and the values of the location.<a name="line.31"></a>
-<span class="sourceLineNo">032</span>         */<a name="line.32"></a>
-<span class="sourceLineNo">033</span>        Map&lt;String, String&gt; getFilter();<a name="line.33"></a>
-<span class="sourceLineNo">034</span><a name="line.34"></a>
-<span class="sourceLineNo">035</span>}<a name="line.35"></a>
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package realtimeweb.businesssearch.main;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    import java.util.Map;<a name="line.3"></a>
+<FONT color="green">004</FONT>    <a name="line.4"></a>
+<FONT color="green">005</FONT>    /**<a name="line.5"></a>
+<FONT color="green">006</FONT>     * An interface representing a Location. The different locations possible are<a name="line.6"></a>
+<FONT color="green">007</FONT>     * listed below, from least specific to most.<a name="line.7"></a>
+<FONT color="green">008</FONT>     * <a name="line.8"></a>
+<FONT color="green">009</FONT>     * &lt;ul&gt;<a name="line.9"></a>
+<FONT color="green">010</FONT>     * &lt;li&gt;{@link NamedLocation} - Represented by a single string (e.g.<a name="line.10"></a>
+<FONT color="green">011</FONT>     * "Blacksburg, VA")&lt;/li&gt;<a name="line.11"></a>
+<FONT color="green">012</FONT>     * &lt;li&gt;{@link CoordinateLocation} - Represented by a single lat/long (e.g. 42,<a name="line.12"></a>
+<FONT color="green">013</FONT>     * 45)&lt;/li&gt;<a name="line.13"></a>
+<FONT color="green">014</FONT>     * &lt;li&gt;{@link RectangularLocation} - Represented by a pair of lat/longs (e.g.<a name="line.14"></a>
+<FONT color="green">015</FONT>     * 42, 45 to 33, 37)&lt;/li&gt;<a name="line.15"></a>
+<FONT color="green">016</FONT>     * &lt;li&gt;{@link realtimeweb.businesssearch.regular.DetailedLocation<a name="line.16"></a>
+<FONT color="green">017</FONT>     * DetailedLocation} - Represented by a coordinate and a postal address&lt;/li&gt;<a name="line.17"></a>
+<FONT color="green">018</FONT>     * &lt;/ul&gt;<a name="line.18"></a>
+<FONT color="green">019</FONT>     * <a name="line.19"></a>
+<FONT color="green">020</FONT>     * @author acbart<a name="line.20"></a>
+<FONT color="green">021</FONT>     * <a name="line.21"></a>
+<FONT color="green">022</FONT>     */<a name="line.22"></a>
+<FONT color="green">023</FONT>    public interface Location {<a name="line.23"></a>
+<FONT color="green">024</FONT>    <a name="line.24"></a>
+<FONT color="green">025</FONT>            /**<a name="line.25"></a>
+<FONT color="green">026</FONT>             * &lt;b&gt; This is an internal method. Please ignore it.&lt;/b&gt;&lt;br&gt;&lt;br&gt;<a name="line.26"></a>
+<FONT color="green">027</FONT>             * <a name="line.27"></a>
+<FONT color="green">028</FONT>             * A method for converting the Location to a representation that can be used<a name="line.28"></a>
+<FONT color="green">029</FONT>             * to construct a query.<a name="line.29"></a>
+<FONT color="green">030</FONT>             * <a name="line.30"></a>
+<FONT color="green">031</FONT>             * @return A mapping between Yelp arguments and the values of the location.<a name="line.31"></a>
+<FONT color="green">032</FONT>             */<a name="line.32"></a>
+<FONT color="green">033</FONT>            Map&lt;String, String&gt; getFilter();<a name="line.33"></a>
+<FONT color="green">034</FONT>    <a name="line.34"></a>
+<FONT color="green">035</FONT>    }<a name="line.35"></a>
 
 
 
@@ -101,7 +96,6 @@
 
 
 
-</pre>
-</div>
-</body>
-</html>
+</PRE>
+</BODY>
+</HTML>
