@@ -12,8 +12,9 @@ import realtimeweb.businesssearch.exceptions.BusinessSearchException;
  * which must also be overridden in any implementing class.<br>
  * <br>
  * 
- * Details about the fields of the Map returned can be found in the Yelp API
- * documentation: http://www.yelp.com/developers/documentation/v2/business
+ * Details about the fields of the Map returned can be found in the <a
+ * href='http://www.yelp.com/developers/documentation/v2/business'>Yelp API
+ * documentation.</a>
  * 
  * @author acbart
  * 
@@ -21,8 +22,9 @@ import realtimeweb.businesssearch.exceptions.BusinessSearchException;
 public interface StructuredBusinessDataListener {
 	/**
 	 * The method that should be overridden to handle the Map of business data.
-	 * For reference on the data being returned, consult the Yelp API
-	 * documentation: http://www.yelp.com/developers/documentation/v2/business
+	 * For reference on the data being returned, consult the <a
+	 * href='http://www.yelp.com/developers/documentation/v2/business'>Yelp API
+	 * documentation.</a>
 	 * 
 	 * @param businessData
 	 */

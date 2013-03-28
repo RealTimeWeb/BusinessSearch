@@ -24,16 +24,17 @@ import realtimeweb.businesssearch.structured.StructuredBusinessSearchListener;
  * StructuredBusinessSearch sbs = StructuredBusinessSearch.getInstance();
  * </pre>
  * 
- * Then you can either connect to the online service:
+ * You can immediately use the service offline, or you can connect to the online
+ * service:
  * 
  * <pre>
  * sbs.connect(&quot;key&quot;, &quot;secret&quot;, &quot;token&quot;, &quot;secrettoken&quot;);
  * </pre>
  * 
- * or use the service offline:
+ * To stop using your connection:
  * 
  * <pre>
- * sbs.setLocal();
+ * sbs.disconnect();
  * </pre>
  * 
  * @author acbart
@@ -68,9 +69,18 @@ public class BusinessSearch implements AbstractBusinessSearch {
 
 	private StructuredBusinessSearch structuredBusinessSearch;
 
+	/**
+	 * Given a Business, fills in any data that might be missing from it. This
+	 * is useful for the Businesses returned in a {@link SearchResponse} by a
+	 * {@link #searchBusinesses}.
+	 * 
+	 * @param incompleteBusiness
+	 * @param listener
+	 */
 	public void getBusinessData(final Business incompleteBusiness,
 			final BusinessDataListener listener) {
-		this.structuredBusinessSearch.getBusinessData(incompleteBusiness.getId(),
+		this.structuredBusinessSearch.getBusinessData(
+				incompleteBusiness.getId(),
 				new StructuredBusinessDataListener() {
 
 					@Override
@@ -155,7 +165,7 @@ public class BusinessSearch implements AbstractBusinessSearch {
 	 * dataservice. This requires an internet connection.
 	 * 
 	 * Requires registration information from Yelp. To get your key go to
-	 * http://www.yelp.com/developers
+	 * <a href='http://www.yelp.com/developers'>http://www.yelp.com/developers</a>
 	 * 
 	 * @param consumerKey
 	 * @param consumerSecret
@@ -170,7 +180,7 @@ public class BusinessSearch implements AbstractBusinessSearch {
 
 	/**
 	 * Establishes that Business Search data should be retrieved locally. This
-	 * does not require an internet connection.
+	 * does not require an internet connection.<br><br>
 	 * 
 	 * If data is being retrieved locally, you must be sure that your parameters
 	 * match locally stored data. Otherwise, you will get nothing in return.

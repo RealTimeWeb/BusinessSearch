@@ -16,9 +16,12 @@ import realtimeweb.businesssearch.util.Util;
  * businesses, and the total number of businesses found by the search (which
  * will often be more than the list of businesses in the SearchResponse, since
  * usually only the first 20 results are returned). In order to access these
- * extra businesses, use the {@link main.BusinessQuery#offsetResults(int)
- * offsetResults} or {@link main.BusinessQuery#paginate(int, int) paginate}
- * filters in the {@link main.BusinessQuery BusinessQuery}.
+ * extra businesses, use the
+ * {@link realtimeweb.businesssearch.main.BusinessQuery#offsetResults(int)
+ * offsetResults} or
+ * {@link realtimeweb.businesssearch.main.BusinessQuery#paginate(int, int)
+ * paginate} filters in the
+ * {@link realtimeweb.businesssearch.main.BusinessQuery BusinessQuery}.
  * 
  * @author acbart
  * 
@@ -84,9 +87,9 @@ public class SearchResponse {
 	 * Returns the total number of businesses found, which may be greater than
 	 * the businesses returned by {@link #getBusinesses}. In order to access
 	 * these extra businesses, use the
-	 * {@link main.BusinessQuery#offsetResults(int) offsetResults} or
-	 * {@link main.BusinessQuery#paginate(int, int) paginate} filters in the
-	 * {@link main.BusinessQuery BusinessQuery}.
+	 * {@link realtimeweb.businesssearch.main.BusinessQuery#offsetResults(int) offsetResults} or
+	 * {@link realtimeweb.businesssearch.main.BusinessQuery#paginate(int, int) paginate} filters in the
+	 * {@link realtimeweb.businesssearch.main.BusinessQuery BusinessQuery}.
 	 * 
 	 * @return the totalFound
 	 */

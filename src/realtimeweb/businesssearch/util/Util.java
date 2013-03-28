@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * Contains several functions that seriously should have been added to Java
- * core.
+ * core. Or maybe I should have used Guava.
  * 
  * @author acbart
  * 
@@ -16,7 +16,8 @@ public class Util {
 	 * Concatenate a list of objects into a single string (using their
 	 * "toString" method), joining them with a ",".
 	 * 
-	 * @param objects A list of objects to concatenate.
+	 * @param objects
+	 *            A list of objects to concatenate.
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
@@ -28,8 +29,10 @@ public class Util {
 	 * Concatenate a list of objects into a single string (using their
 	 * "toString" method), joining them with a specified glue string.
 	 * 
-	 * @param glue A string to use to join the objects.
-	 * @param objects A list of objects to concatenate.
+	 * @param glue
+	 *            A string to use to join the objects.
+	 * @param objects
+	 *            A list of objects to concatenate.
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
@@ -45,8 +48,11 @@ public class Util {
 
 	/**
 	 * Change the precision of a double value, according to the new mantissa.
-	 * @param d The double value you want re-precisioned.
-	 * @param mantissa The number of digits after the decimal place.
+	 * 
+	 * @param d
+	 *            The double value you want re-precisioned.
+	 * @param mantissa
+	 *            The number of digits after the decimal place.
 	 * @return
 	 */
 	public static double formatDecimals(double d, int mantissa) {

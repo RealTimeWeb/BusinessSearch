@@ -199,7 +199,7 @@ public class DetailedLocation implements Location {
 	}
 
 	/**
-	 * Returns the {@link main.GeoAccuracy GeoAccuracy} of this location.
+	 * Returns the {@link realtimeweb.businesssearch.main.GeoAccuracy GeoAccuracy} of this location.
 	 * 
 	 * @return the geoAccuracy
 	 */
@@ -208,7 +208,8 @@ public class DetailedLocation implements Location {
 	}
 
 	/**
-	 * This method is for internal purposes only.
+	 * <b>This method is for internal purposes only.</b><br><br>
+	 * 
 	 */
 	@Override
 	public Map<String, String> getFilter() {
