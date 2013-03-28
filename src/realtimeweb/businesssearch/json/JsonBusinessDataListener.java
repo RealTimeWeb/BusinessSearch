@@ -5,9 +5,10 @@ import realtimeweb.businesssearch.exceptions.BusinessSearchException;
 /**
  * A listener for handling data received about a specific Business. On success,
  * a string of JSON containing all the information about the Business will be
- * passed to the onSuccess method, which must be overridden in any implementing
- * classes. On failure, the default behavior is to print any exceptions to the
- * standard error, although the onFailure method can also be overridden.<br>
+ * passed to the businessDataCompleted method, which must be overridden in any
+ * implementing classes. On failure, an exception is passed to the
+ * businessDataFailed method, which must also be overridden in any implementing
+ * class.<br>
  * <br>
  * 
  * Details about the JSON string returned can be found in the Yelp API
@@ -33,5 +34,5 @@ public interface JsonBusinessDataListener {
 	 * 
 	 * @param exception
 	 */
-	public abstract void businessDataFailed(BusinessSearchException  exception);
+	public abstract void businessDataFailed(BusinessSearchException exception);
 }

@@ -5,8 +5,6 @@ Todo:
 
  * Must be built with Java 6 to support Android, not Java 7
    
- * Update Docs for listeners
-
  * Rewrite getBusinessData method to take an existing Business and fill it in,
    rather than an ID and returning a new object (though, we probably want the
    original too)
@@ -23,3 +21,5 @@ Done:
  * No need for separate ExceptionListener; just give methods in each listener
    interface more meaningful names, like businessSearchCompleted,
    businessSearchFailed, businessDataCompleted, businessDataFailed...
+   
+ * Update Docs for listeners
