@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<project name="Ant-build" basedir="." default="single-jar">
+
+	<path id="classpath">
+		<fileset dir="libs" includes="**/*.jar" />
+	</path>
+
+	<target name="single-jar">
+		<delete dir="bin/" />
+		<mkdir dir="bin" />
+		<javac srcdir="src" destdir="bin" classpathref="classpath" />
+		<copy todir="bin">
+			<fileset dir="src" excludes="**/*.java" />
+		</copy>
+		<propertyfile file=".properties">
+			<entry key="doc" value="doc/" />
+		</propertyfile>
+		<jar destfile="bin/BusinessSearch.jar" basedir="bin/">
+			<fileset dir="bin" includes="bin/*.class" />
+			<zipgroupfileset dir="libs/" includes="*.jar" />
+		</jar>
+	</target>
+
+	<target name="javadoc">
+		<delete dir="bin/" />
+		<mkdir dir="bin" />
+		<copy todir="bin/doc">
+			<fileset dir="doc" includes="**" />
+		</copy>
+		<jar destfile="bin/BusinessSearch-javadoc.jar" basedir="bin/" />
+	</target>
+</project>

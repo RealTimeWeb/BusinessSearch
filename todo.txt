@@ -1,0 +1,25 @@
+Todo:
+ * Should local be the default? Already have the connect() method to make
+   remote connections, so maybe if you do nothing, you get the local data
+   store?
+
+ * Must be built with Java 6 to support Android, not Java 7
+   
+ * Update Docs for listeners
+
+ * Rewrite getBusinessData method to take an existing Business and fill it in,
+   rather than an ID and returning a new object (though, we probably want the
+   original too)
+
+ * Business should have an isComplete() method describing whether it is the
+   "shallow" preview returned by the search or the "full" data returned by the
+   individual getter
+   
+Done:
+ * Put everything in an appropriate top-level package: webinacan.yelp.*
+ 
+ * Listeners must be interfaces, not classes.
+
+ * No need for separate ExceptionListener; just give methods in each listener
+   interface more meaningful names, like businessSearchCompleted,
+   businessSearchFailed, businessDataCompleted, businessDataFailed...
