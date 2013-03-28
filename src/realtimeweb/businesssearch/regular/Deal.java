@@ -40,7 +40,7 @@ public class Deal {
 		}
 		this.isPopular = false;
 		if (raw.containsKey("this.isPopular")) {
-			this.isPopular = (boolean) raw.get("is_popular");
+			this.isPopular = (Boolean) raw.get("is_popular");
 		}
 		this.details = (String) raw.get("what_you_get");
 		this.importantRestrictions = (String) raw.get("important_restrictions");

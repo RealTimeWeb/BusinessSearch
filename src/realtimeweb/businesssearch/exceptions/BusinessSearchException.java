@@ -85,36 +85,35 @@ public class BusinessSearchException extends Exception {
 
 	public static BusinessSearchException generateSpecificException(String id,
 			String message, String details) {
-		switch (id) {
-		case "INTERNAL_ERROR":
+		if (id.equals("INTERNAL_ERROR")) {
 			return new InternalErrorException(id, message, details);
-		case "EXCEEDED_REQS":
+		} else if (id.equals("EXCEEDED_REQS")) {
 			return new ExceededReqsException(id, message, details);
-		case "MISSING_PARAMETER":
+		} else if (id.equals("MISSING_PARAMETER")) {
 			return new MissingParameterException(id, message, details);
-		case "INVALID_PARAMETER":
+		} else if (id.equals("INVALID_PARAMETER")) {
 			return new InvalidParameterException(id, message, details);
-		case "INVALID_SIGNATURE":
+		} else if (id.equals("INVALID_SIGNATURE")) {
 			return new InvalidSignatureException(id, message, details);
-		case "INVALID_CREDENTIALS":
+		} else if (id.equals("INVALID_CREDENTIALS")) {
 			return new InvalidCredentialsException(id, message, details);
-		case "INVALID_OAUTH_CREDENTIALS":
+		} else if (id.equals("INVALID_OAUTH_CREDENTIALS")) {
 			return new InvalidOAuthCredentialsException(id, message, details);
-		case "INVALID_OAUTH_USER":
+		} else if (id.equals("INVALID_OAUTH_USER")) {
 			return new InvalidOAuthUserException(id, message, details);
-		case "ACCOUNT_UNCONFIRMED":
+		} else if (id.equals("ACCOUNT_UNCONFIRMED")) {
 			return new AccountUnconfirmedException(id, message, details);
-		case "PASSWORD_TOO_LONG":
+		} else if (id.equals("PASSWORD_TOO_LONG")) {
 			return new PasswordTooLongException(id, message, details);
-		case "UNAVAILABLE_FOR_LOCATION":
+		} else if (id.equals("UNAVAILABLE_FOR_LOCATION")) {
 			return new UnavailableForLocationException(id, message, details);
-		case "AREA_TOO_LARGE":
+		} else if (id.equals("AREA_TOO_LARGE")) {
 			return new AreaTooLargeException(id, message, details);
-		case "MULTIPLE_LOCATIONS":
+		} else if (id.equals("MULTIPLE_LOCATIONS")) {
 			return new MultipleLocationsException(id, message, details);
-		case "BUSINESS_UNAVAILABLE":
+		} else if (id.equals("BUSINESS_UNAVAILABLE")) {
 			return new BusinessUnavailableException(id, message, details);
-		default:
+		} else {
 			return new BusinessSearchException(id, message, details);
 		}
 	}

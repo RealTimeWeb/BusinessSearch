@@ -42,327 +42,328 @@
 <span class="sourceLineNo">034</span> * StructuredBusinessSearch sbs = StructuredBusinessSearch.getInstance();<a name="line.34"></a>
 <span class="sourceLineNo">035</span> * &lt;/pre&gt;<a name="line.35"></a>
 <span class="sourceLineNo">036</span> * <a name="line.36"></a>
-<span class="sourceLineNo">037</span> * Then you can either connect to the online service:<a name="line.37"></a>
-<span class="sourceLineNo">038</span> * <a name="line.38"></a>
-<span class="sourceLineNo">039</span> * &lt;pre&gt;<a name="line.39"></a>
-<span class="sourceLineNo">040</span> * sbs.connect(&amp;quot;key&amp;quot;, &amp;quot;secret&amp;quot;, &amp;quot;token&amp;quot;, &amp;quot;secrettoken&amp;quot;);<a name="line.40"></a>
-<span class="sourceLineNo">041</span> * &lt;/pre&gt;<a name="line.41"></a>
-<span class="sourceLineNo">042</span> * <a name="line.42"></a>
-<span class="sourceLineNo">043</span> * or use the service offline:<a name="line.43"></a>
-<span class="sourceLineNo">044</span> * <a name="line.44"></a>
-<span class="sourceLineNo">045</span> * &lt;pre&gt;<a name="line.45"></a>
-<span class="sourceLineNo">046</span> * sbs.setLocal();<a name="line.46"></a>
-<span class="sourceLineNo">047</span> * &lt;/pre&gt;<a name="line.47"></a>
-<span class="sourceLineNo">048</span> * <a name="line.48"></a>
-<span class="sourceLineNo">049</span> * @author acbart<a name="line.49"></a>
-<span class="sourceLineNo">050</span> * <a name="line.50"></a>
-<span class="sourceLineNo">051</span> */<a name="line.51"></a>
-<span class="sourceLineNo">052</span>public class JsonBusinessSearch implements AbstractBusinessSearch {<a name="line.52"></a>
-<span class="sourceLineNo">053</span><a name="line.53"></a>
-<span class="sourceLineNo">054</span>        protected boolean local;<a name="line.54"></a>
-<span class="sourceLineNo">055</span>        protected OAuthService service;<a name="line.55"></a>
-<span class="sourceLineNo">056</span>        protected Token accessToken;<a name="line.56"></a>
-<span class="sourceLineNo">057</span>        private ClientStore clientStore;<a name="line.57"></a>
-<span class="sourceLineNo">058</span><a name="line.58"></a>
-<span class="sourceLineNo">059</span>        private static JsonBusinessSearch instance;<a name="line.59"></a>
-<span class="sourceLineNo">060</span><a name="line.60"></a>
-<span class="sourceLineNo">061</span>        private boolean storing = false;<a name="line.61"></a>
-<span class="sourceLineNo">062</span><a name="line.62"></a>
-<span class="sourceLineNo">063</span>        /**<a name="line.63"></a>
-<span class="sourceLineNo">064</span>         * &lt;b&gt;This method is for internal use only.&lt;/b&gt;&lt;br&gt;<a name="line.64"></a>
-<span class="sourceLineNo">065</span>         * &lt;br&gt;<a name="line.65"></a>
-<span class="sourceLineNo">066</span>         * <a name="line.66"></a>
-<span class="sourceLineNo">067</span>         * When the system is storing, any requests made to the online Yelp service<a name="line.67"></a>
-<span class="sourceLineNo">068</span>         * will be stored for future use. However, those requests will not be saved<a name="line.68"></a>
-<span class="sourceLineNo">069</span>         * between runs of your program.<a name="line.69"></a>
-<span class="sourceLineNo">070</span>         */<a name="line.70"></a>
-<span class="sourceLineNo">071</span>        public void setStoring(boolean storing) {<a name="line.71"></a>
-<span class="sourceLineNo">072</span>                this.storing = storing;<a name="line.72"></a>
-<span class="sourceLineNo">073</span>        }<a name="line.73"></a>
-<span class="sourceLineNo">074</span><a name="line.74"></a>
-<span class="sourceLineNo">075</span>        /**<a name="line.75"></a>
-<span class="sourceLineNo">076</span>         * Retrieves the singleton instance of the JsonBusinessSearch.<a name="line.76"></a>
-<span class="sourceLineNo">077</span>         * <a name="line.77"></a>
-<span class="sourceLineNo">078</span>         * @return<a name="line.78"></a>
-<span class="sourceLineNo">079</span>         */<a name="line.79"></a>
-<span class="sourceLineNo">080</span>        public static JsonBusinessSearch getInstance() {<a name="line.80"></a>
-<span class="sourceLineNo">081</span>                if (instance == null) {<a name="line.81"></a>
-<span class="sourceLineNo">082</span>                        synchronized (JsonBusinessSearch.class) {<a name="line.82"></a>
-<span class="sourceLineNo">083</span>                                if (instance == null) {<a name="line.83"></a>
-<span class="sourceLineNo">084</span>                                        instance = new JsonBusinessSearch(false);<a name="line.84"></a>
-<span class="sourceLineNo">085</span>                                }<a name="line.85"></a>
-<span class="sourceLineNo">086</span>                        }<a name="line.86"></a>
-<span class="sourceLineNo">087</span>                }<a name="line.87"></a>
-<span class="sourceLineNo">088</span>                return instance;<a name="line.88"></a>
-<span class="sourceLineNo">089</span>        }<a name="line.89"></a>
-<span class="sourceLineNo">090</span><a name="line.90"></a>
-<span class="sourceLineNo">091</span>        /**<a name="line.91"></a>
-<span class="sourceLineNo">092</span>         * &lt;b&gt;This method is for internal use only.&lt;/b&gt;&lt;br&gt;<a name="line.92"></a>
-<span class="sourceLineNo">093</span>         * &lt;br&gt;<a name="line.93"></a>
-<span class="sourceLineNo">094</span>         * <a name="line.94"></a>
-<span class="sourceLineNo">095</span>         * Retrieves the singleton instance of the JsonBusinessSearch, optionally<a name="line.95"></a>
-<span class="sourceLineNo">096</span>         * turning recording on or off.<a name="line.96"></a>
-<span class="sourceLineNo">097</span>         * <a name="line.97"></a>
-<span class="sourceLineNo">098</span>         * @return<a name="line.98"></a>
-<span class="sourceLineNo">099</span>         */<a name="line.99"></a>
-<span class="sourceLineNo">100</span>        static JsonBusinessSearch getRecordingInstance() {<a name="line.100"></a>
-<span class="sourceLineNo">101</span>                if (instance == null) {<a name="line.101"></a>
-<span class="sourceLineNo">102</span>                        synchronized (JsonBusinessSearch.class) {<a name="line.102"></a>
-<span class="sourceLineNo">103</span>                                if (instance == null) {<a name="line.103"></a>
-<span class="sourceLineNo">104</span>                                        instance = new JsonBusinessSearch(true);<a name="line.104"></a>
-<span class="sourceLineNo">105</span>                                }<a name="line.105"></a>
-<span class="sourceLineNo">106</span>                        }<a name="line.106"></a>
-<span class="sourceLineNo">107</span>                }<a name="line.107"></a>
-<span class="sourceLineNo">108</span>                return instance;<a name="line.108"></a>
-<span class="sourceLineNo">109</span>        }<a name="line.109"></a>
-<span class="sourceLineNo">110</span><a name="line.110"></a>
-<span class="sourceLineNo">111</span>        /**<a name="line.111"></a>
-<span class="sourceLineNo">112</span>         * A protected constructor to defeat instantation of this singleton.<a name="line.112"></a>
-<span class="sourceLineNo">113</span>         */<a name="line.113"></a>
-<span class="sourceLineNo">114</span>        protected JsonBusinessSearch(boolean recording) {<a name="line.114"></a>
-<span class="sourceLineNo">115</span>                disconnect();<a name="line.115"></a>
-<span class="sourceLineNo">116</span>                setStoring(recording);<a name="line.116"></a>
-<span class="sourceLineNo">117</span>                this.service = null;<a name="line.117"></a>
-<span class="sourceLineNo">118</span>                this.accessToken = null;<a name="line.118"></a>
-<span class="sourceLineNo">119</span>                this.clientStore = new ClientStore(recording);<a name="line.119"></a>
-<span class="sourceLineNo">120</span>                BusinessCategory.getCategories();<a name="line.120"></a>
-<span class="sourceLineNo">121</span>        }<a name="line.121"></a>
-<span class="sourceLineNo">122</span><a name="line.122"></a>
-<span class="sourceLineNo">123</span>        /**<a name="line.123"></a>
-<span class="sourceLineNo">124</span>         * Establishes a connection to the online Business Search service.<a name="line.124"></a>
-<span class="sourceLineNo">125</span>         * dataservice. This does not require an internet connection.<a name="line.125"></a>
-<span class="sourceLineNo">126</span>         * <a name="line.126"></a>
-<span class="sourceLineNo">127</span>         * Requires registration information from Yelp. To get your key go to<a name="line.127"></a>
-<span class="sourceLineNo">128</span>         * http://www.yelp.com/developers<a name="line.128"></a>
-<span class="sourceLineNo">129</span>         * <a name="line.129"></a>
-<span class="sourceLineNo">130</span>         * @param consumerKey<a name="line.130"></a>
-<span class="sourceLineNo">131</span>         * @param consumerSecret<a name="line.131"></a>
-<span class="sourceLineNo">132</span>         * @param token<a name="line.132"></a>
-<span class="sourceLineNo">133</span>         * @param tokenSecret<a name="line.133"></a>
-<span class="sourceLineNo">134</span>         */<a name="line.134"></a>
-<span class="sourceLineNo">135</span>        public void connect(String consumerKey, String consumerSecret,<a name="line.135"></a>
-<span class="sourceLineNo">136</span>                        String token, String tokenSecret) {<a name="line.136"></a>
-<span class="sourceLineNo">137</span>                this.local = false;<a name="line.137"></a>
-<span class="sourceLineNo">138</span>                this.service = new ServiceBuilder()<a name="line.138"></a>
-<span class="sourceLineNo">139</span>                                .provider(ServiceAuthentication.class).apiKey(consumerKey)<a name="line.139"></a>
-<span class="sourceLineNo">140</span>                                .apiSecret(consumerSecret).build();<a name="line.140"></a>
-<span class="sourceLineNo">141</span>                this.accessToken = new Token(token, tokenSecret);<a name="line.141"></a>
-<span class="sourceLineNo">142</span>        }<a name="line.142"></a>
-<span class="sourceLineNo">143</span><a name="line.143"></a>
-<span class="sourceLineNo">144</span>        /**<a name="line.144"></a>
-<span class="sourceLineNo">145</span>         * Establishes that data should be retrieved locally instead of from the<a name="line.145"></a>
-<span class="sourceLineNo">146</span>         * online service. This is the default behavior for the BusinessSearch.&lt;br&gt;<a name="line.146"></a>
-<span class="sourceLineNo">147</span>         * &lt;br&gt;<a name="line.147"></a>
-<span class="sourceLineNo">148</span>         * <a name="line.148"></a>
-<span class="sourceLineNo">149</span>         * If data is being retrieved locally, you must be sure that your parameters<a name="line.149"></a>
-<span class="sourceLineNo">150</span>         * match locally stored data. Otherwise, you will get nothing in return.<a name="line.150"></a>
-<span class="sourceLineNo">151</span>         * <a name="line.151"></a>
-<span class="sourceLineNo">152</span>         * @param local<a name="line.152"></a>
-<span class="sourceLineNo">153</span>         */<a name="line.153"></a>
-<span class="sourceLineNo">154</span>        public void disconnect() {<a name="line.154"></a>
-<span class="sourceLineNo">155</span>                this.local = true;<a name="line.155"></a>
-<span class="sourceLineNo">156</span>        }<a name="line.156"></a>
-<span class="sourceLineNo">157</span><a name="line.157"></a>
-<span class="sourceLineNo">158</span>        /**<a name="line.158"></a>
-<span class="sourceLineNo">159</span>         * The function is used to create a request to the server. By converting a<a name="line.159"></a>
-<span class="sourceLineNo">160</span>         * request to a string, you can get an accurate and storeable version of it.<a name="line.160"></a>
-<span class="sourceLineNo">161</span>         * <a name="line.161"></a>
-<span class="sourceLineNo">162</span>         * @param destination<a name="line.162"></a>
-<span class="sourceLineNo">163</span>         * @param hashMap<a name="line.163"></a>
-<span class="sourceLineNo">164</span>         * @return<a name="line.164"></a>
-<span class="sourceLineNo">165</span>         */<a name="line.165"></a>
-<span class="sourceLineNo">166</span>        OAuthRequest makeRequest(String destination, HashMap&lt;String, String&gt; hashMap) {<a name="line.166"></a>
-<span class="sourceLineNo">167</span>                OAuthRequest request = new OAuthRequest(Verb.GET,<a name="line.167"></a>
-<span class="sourceLineNo">168</span>                                "http://api.yelp.com/v2/" + destination);<a name="line.168"></a>
-<span class="sourceLineNo">169</span>                for (Entry&lt;String, String&gt; parameter : hashMap.entrySet()) {<a name="line.169"></a>
-<span class="sourceLineNo">170</span>                        String key = parameter.getKey();<a name="line.170"></a>
-<span class="sourceLineNo">171</span>                        String value = parameter.getValue();<a name="line.171"></a>
-<span class="sourceLineNo">172</span>                        request.addQuerystringParameter(key, value);<a name="line.172"></a>
-<span class="sourceLineNo">173</span>                }<a name="line.173"></a>
-<span class="sourceLineNo">174</span>                if (!this.local) {<a name="line.174"></a>
-<span class="sourceLineNo">175</span>                        this.service.signRequest(this.accessToken, request);<a name="line.175"></a>
-<span class="sourceLineNo">176</span>                }<a name="line.176"></a>
-<span class="sourceLineNo">177</span>                return request;<a name="line.177"></a>
-<span class="sourceLineNo">178</span>        }<a name="line.178"></a>
-<span class="sourceLineNo">179</span><a name="line.179"></a>
-<span class="sourceLineNo">180</span>        /**<a name="line.180"></a>
-<span class="sourceLineNo">181</span>         * This function is used to send a request to the server.<a name="line.181"></a>
-<span class="sourceLineNo">182</span>         * <a name="line.182"></a>
-<span class="sourceLineNo">183</span>         * @param request<a name="line.183"></a>
-<span class="sourceLineNo">184</span>         * @return<a name="line.184"></a>
-<span class="sourceLineNo">185</span>         */<a name="line.185"></a>
-<span class="sourceLineNo">186</span>        String sendRequest(OAuthRequest request) throws OAuthException {<a name="line.186"></a>
-<span class="sourceLineNo">187</span>                String hashedRequest = hashRequest(request);<a name="line.187"></a>
-<span class="sourceLineNo">188</span>                if (local) {<a name="line.188"></a>
-<span class="sourceLineNo">189</span>                        return clientStore.getData(hashedRequest);<a name="line.189"></a>
-<span class="sourceLineNo">190</span>                } else {<a name="line.190"></a>
-<span class="sourceLineNo">191</span>                        String response = request.send().getBody();<a name="line.191"></a>
-<span class="sourceLineNo">192</span>                        if (storing) {<a name="line.192"></a>
-<span class="sourceLineNo">193</span>                                clientStore.putData(hashedRequest, response);<a name="line.193"></a>
-<span class="sourceLineNo">194</span>                        }<a name="line.194"></a>
-<span class="sourceLineNo">195</span>                        return response;<a name="line.195"></a>
-<span class="sourceLineNo">196</span>                }<a name="line.196"></a>
-<span class="sourceLineNo">197</span>        }<a name="line.197"></a>
-<span class="sourceLineNo">198</span><a name="line.198"></a>
-<span class="sourceLineNo">199</span>        /**<a name="line.199"></a>
-<span class="sourceLineNo">200</span>         * Convert a Request object to an injective hash.<a name="line.200"></a>
-<span class="sourceLineNo">201</span>         * <a name="line.201"></a>
-<span class="sourceLineNo">202</span>         * An injective hash has no collisions. Hopefully that can't occur with<a name="line.202"></a>
-<span class="sourceLineNo">203</span>         * this.<a name="line.203"></a>
-<span class="sourceLineNo">204</span>         * <a name="line.204"></a>
-<span class="sourceLineNo">205</span>         * @param request<a name="line.205"></a>
-<span class="sourceLineNo">206</span>         * @return<a name="line.206"></a>
-<span class="sourceLineNo">207</span>         */<a name="line.207"></a>
-<span class="sourceLineNo">208</span>        @SuppressWarnings({ "unchecked", "rawtypes" })<a name="line.208"></a>
-<span class="sourceLineNo">209</span>        private static String hashRequest(OAuthRequest request) {<a name="line.209"></a>
-<span class="sourceLineNo">210</span>                String url = request.getUrl();<a name="line.210"></a>
-<span class="sourceLineNo">211</span>                String queryStrings = (new TreeMap(request.getQueryStringParams()))<a name="line.211"></a>
-<span class="sourceLineNo">212</span>                                .toString();<a name="line.212"></a>
-<span class="sourceLineNo">213</span>                String bodyParams = (new TreeMap(request.getBodyParams())).toString();<a name="line.213"></a>
-<span class="sourceLineNo">214</span>                return url + "%" + queryStrings + "%" + bodyParams;<a name="line.214"></a>
-<span class="sourceLineNo">215</span>        }<a name="line.215"></a>
-<span class="sourceLineNo">216</span><a name="line.216"></a>
-<span class="sourceLineNo">217</span>        /**<a name="line.217"></a>
-<span class="sourceLineNo">218</span>         * A method that will convert a Yelp error to a Java exception, if there is<a name="line.218"></a>
-<span class="sourceLineNo">219</span>         * one.<a name="line.219"></a>
-<span class="sourceLineNo">220</span>         * <a name="line.220"></a>
-<span class="sourceLineNo">221</span>         * @param response<a name="line.221"></a>
-<span class="sourceLineNo">222</span>         * @return<a name="line.222"></a>
-<span class="sourceLineNo">223</span>         */<a name="line.223"></a>
-<span class="sourceLineNo">224</span>        BusinessSearchException checkErrors(String response) {<a name="line.224"></a>
-<span class="sourceLineNo">225</span>                if (response.isEmpty()) {<a name="line.225"></a>
-<span class="sourceLineNo">226</span>                        if (local) {<a name="line.226"></a>
-<span class="sourceLineNo">227</span>                                return null;<a name="line.227"></a>
-<span class="sourceLineNo">228</span>                        } else {<a name="line.228"></a>
-<span class="sourceLineNo">229</span>                                return new BusinessSearchException(<a name="line.229"></a>
-<span class="sourceLineNo">230</span>                                                "Local",<a name="line.230"></a>
-<span class="sourceLineNo">231</span>                                                "Could not connect to the online Yelp service. Try using a local connection instead.",<a name="line.231"></a>
-<span class="sourceLineNo">232</span>                                                "");<a name="line.232"></a>
-<span class="sourceLineNo">233</span>                        }<a name="line.233"></a>
-<span class="sourceLineNo">234</span>                }<a name="line.234"></a>
-<span class="sourceLineNo">235</span>                try {<a name="line.235"></a>
-<span class="sourceLineNo">236</span>                        HashMap&lt;String, Object&gt; r = (HashMap&lt;String, Object&gt;) JsonConverter<a name="line.236"></a>
-<span class="sourceLineNo">237</span>                                        .convertToMap(response);<a name="line.237"></a>
-<span class="sourceLineNo">238</span>                        if (r.containsKey("error")) {<a name="line.238"></a>
-<span class="sourceLineNo">239</span>                                @SuppressWarnings("unchecked")<a name="line.239"></a>
-<span class="sourceLineNo">240</span>                                HashMap&lt;String, Object&gt; error = (HashMap&lt;String, Object&gt;) r<a name="line.240"></a>
-<span class="sourceLineNo">241</span>                                                .get("error");<a name="line.241"></a>
-<span class="sourceLineNo">242</span>                                return new BusinessSearchException((String) error.get("id"),<a name="line.242"></a>
-<span class="sourceLineNo">243</span>                                                (String) error.get("text"), (String) error.get("field"));<a name="line.243"></a>
-<span class="sourceLineNo">244</span>                        }<a name="line.244"></a>
-<span class="sourceLineNo">245</span>                } catch (ParseException e) {<a name="line.245"></a>
-<span class="sourceLineNo">246</span>                        return new BusinessSearchException(<a name="line.246"></a>
-<span class="sourceLineNo">247</span>                                        "Local",<a name="line.247"></a>
-<span class="sourceLineNo">248</span>                                        "The response from the Yelp Service was not valid JSON. Check the fields for more information on what was returned.",<a name="line.248"></a>
-<span class="sourceLineNo">249</span>                                        response);<a name="line.249"></a>
-<span class="sourceLineNo">250</span>                }<a name="line.250"></a>
-<span class="sourceLineNo">251</span>                return null;<a name="line.251"></a>
-<span class="sourceLineNo">252</span>        }<a name="line.252"></a>
-<span class="sourceLineNo">253</span><a name="line.253"></a>
-<span class="sourceLineNo">254</span>        /**<a name="line.254"></a>
-<span class="sourceLineNo">255</span>         * Returns data about a business given its businessId (which is a sequence<a name="line.255"></a>
-<span class="sourceLineNo">256</span>         * of characters, symbols, and numbers, e.g. "I_7cQmHxx6LokP9yr7Fx-w").<a name="line.256"></a>
-<span class="sourceLineNo">257</span>         * <a name="line.257"></a>
-<span class="sourceLineNo">258</span>         * @param businessId<a name="line.258"></a>
-<span class="sourceLineNo">259</span>         *            A string identifying the business.<a name="line.259"></a>
-<span class="sourceLineNo">260</span>         * @param listener<a name="line.260"></a>
-<span class="sourceLineNo">261</span>         *            a callback function that will consume the data (or error)<a name="line.261"></a>
-<span class="sourceLineNo">262</span>         *            about the business.<a name="line.262"></a>
-<span class="sourceLineNo">263</span>         */<a name="line.263"></a>
-<span class="sourceLineNo">264</span>        public void getBusinessData(final String businessId,<a name="line.264"></a>
-<span class="sourceLineNo">265</span>                        final JsonBusinessDataListener listener) {<a name="line.265"></a>
-<span class="sourceLineNo">266</span>                final JsonBusinessSearch _this = this;<a name="line.266"></a>
-<span class="sourceLineNo">267</span>                Thread thread = new Thread() {<a name="line.267"></a>
-<span class="sourceLineNo">268</span>                        public void run() {<a name="line.268"></a>
-<span class="sourceLineNo">269</span>                                OAuthRequest request = _this.makeRequest("business/"<a name="line.269"></a>
-<span class="sourceLineNo">270</span>                                                + businessId, new HashMap&lt;String, String&gt;());<a name="line.270"></a>
-<span class="sourceLineNo">271</span>                                String response = _this.sendRequest(request);<a name="line.271"></a>
-<span class="sourceLineNo">272</span>                                BusinessSearchException error = _this.checkErrors(response);<a name="line.272"></a>
-<span class="sourceLineNo">273</span>                                if (error == null) {<a name="line.273"></a>
-<span class="sourceLineNo">274</span>                                        listener.businessDataCompleted(response);<a name="line.274"></a>
-<span class="sourceLineNo">275</span>                                } else {<a name="line.275"></a>
-<span class="sourceLineNo">276</span>                                        listener.businessDataFailed(error);<a name="line.276"></a>
-<span class="sourceLineNo">277</span>                                }<a name="line.277"></a>
-<span class="sourceLineNo">278</span>                        }<a name="line.278"></a>
-<span class="sourceLineNo">279</span>                };<a name="line.279"></a>
-<span class="sourceLineNo">280</span>                thread.start();<a name="line.280"></a>
-<span class="sourceLineNo">281</span>        }<a name="line.281"></a>
-<span class="sourceLineNo">282</span><a name="line.282"></a>
-<span class="sourceLineNo">283</span>        /**<a name="line.283"></a>
-<span class="sourceLineNo">284</span>         * Queries the Yelp service for businesses that match the given<a name="line.284"></a>
-<span class="sourceLineNo">285</span>         * BusinessQuery. Returns the data (or error) through the listener object.<a name="line.285"></a>
-<span class="sourceLineNo">286</span>         * <a name="line.286"></a>
-<span class="sourceLineNo">287</span>         * @param query<a name="line.287"></a>
-<span class="sourceLineNo">288</span>         *            A BusinessQuery object<a name="line.288"></a>
-<span class="sourceLineNo">289</span>         * @param listener<a name="line.289"></a>
-<span class="sourceLineNo">290</span>         *            A listener object that should contain methods for handling the<a name="line.290"></a>
-<span class="sourceLineNo">291</span>         *            data and, optionally, any errors.<a name="line.291"></a>
-<span class="sourceLineNo">292</span>         */<a name="line.292"></a>
-<span class="sourceLineNo">293</span>        public void searchBusinesses(final BusinessQuery query,<a name="line.293"></a>
-<span class="sourceLineNo">294</span>                        final JsonBusinessSearchListener listener) {<a name="line.294"></a>
-<span class="sourceLineNo">295</span>                final JsonBusinessSearch _this = this;<a name="line.295"></a>
-<span class="sourceLineNo">296</span>                Thread thread = new Thread() {<a name="line.296"></a>
-<span class="sourceLineNo">297</span>                        public void run() {<a name="line.297"></a>
-<span class="sourceLineNo">298</span>                                OAuthRequest request = _this.makeRequest("search",<a name="line.298"></a>
-<span class="sourceLineNo">299</span>                                                query.getFilters());<a name="line.299"></a>
-<span class="sourceLineNo">300</span>                                String response = _this.sendRequest(request);<a name="line.300"></a>
-<span class="sourceLineNo">301</span>                                BusinessSearchException error = _this.checkErrors(response);<a name="line.301"></a>
-<span class="sourceLineNo">302</span>                                if (error == null) {<a name="line.302"></a>
-<span class="sourceLineNo">303</span>                                        listener.businessSearchCompleted(response);<a name="line.303"></a>
-<span class="sourceLineNo">304</span>                                } else {<a name="line.304"></a>
-<span class="sourceLineNo">305</span>                                        listener.businessSearchFailed(error);<a name="line.305"></a>
-<span class="sourceLineNo">306</span>                                }<a name="line.306"></a>
-<span class="sourceLineNo">307</span>                        }<a name="line.307"></a>
-<span class="sourceLineNo">308</span>                };<a name="line.308"></a>
-<span class="sourceLineNo">309</span>                thread.start();<a name="line.309"></a>
-<span class="sourceLineNo">310</span>        }<a name="line.310"></a>
-<span class="sourceLineNo">311</span><a name="line.311"></a>
-<span class="sourceLineNo">312</span>        /**<a name="line.312"></a>
-<span class="sourceLineNo">313</span>         * &lt;b&gt;This is an internal method. Do not use it!&lt;/b&gt;&lt;br&gt;<a name="line.313"></a>
-<span class="sourceLineNo">314</span>         * &lt;br&gt;<a name="line.314"></a>
-<span class="sourceLineNo">315</span>         * <a name="line.315"></a>
-<span class="sourceLineNo">316</span>         * Internal method to access this instance's local data.<a name="line.316"></a>
-<span class="sourceLineNo">317</span>         * <a name="line.317"></a>
-<span class="sourceLineNo">318</span>         * @return<a name="line.318"></a>
-<span class="sourceLineNo">319</span>         */<a name="line.319"></a>
-<span class="sourceLineNo">320</span>        public ClientStore getClientStore() {<a name="line.320"></a>
-<span class="sourceLineNo">321</span>                return clientStore;<a name="line.321"></a>
-<span class="sourceLineNo">322</span>        }<a name="line.322"></a>
-<span class="sourceLineNo">323</span><a name="line.323"></a>
-<span class="sourceLineNo">324</span>        /**<a name="line.324"></a>
-<span class="sourceLineNo">325</span>         * &lt;b&gt;This is an internal method. Do not use it.&lt;/b&gt;&lt;br&gt;<a name="line.325"></a>
-<span class="sourceLineNo">326</span>         * <a name="line.326"></a>
-<span class="sourceLineNo">327</span>         * Internal method to save the current data store to a file.<a name="line.327"></a>
-<span class="sourceLineNo">328</span>         * <a name="line.328"></a>
-<span class="sourceLineNo">329</span>         * @param file<a name="line.329"></a>
-<span class="sourceLineNo">330</span>         * @param b<a name="line.330"></a>
-<span class="sourceLineNo">331</span>         * @throws IOException<a name="line.331"></a>
-<span class="sourceLineNo">332</span>         */<a name="line.332"></a>
-<span class="sourceLineNo">333</span>        public void save(String source, boolean append) throws IOException {<a name="line.333"></a>
-<span class="sourceLineNo">334</span>                this.clientStore.save(source, append);<a name="line.334"></a>
-<span class="sourceLineNo">335</span>        }<a name="line.335"></a>
-<span class="sourceLineNo">336</span><a name="line.336"></a>
-<span class="sourceLineNo">337</span>        /*<a name="line.337"></a>
-<span class="sourceLineNo">338</span>         * public static void main(String[] args) { final JsonBusinessSearch jbs =<a name="line.338"></a>
-<span class="sourceLineNo">339</span>         * JsonBusinessSearch.getRecordingInstance();<a name="line.339"></a>
-<span class="sourceLineNo">340</span>         * jbs.connect("em86viPSqwmfF2PFfNsPEQ", "K7Dq24NKDMNNk-sz_-JMlAvDmSU",<a name="line.340"></a>
-<span class="sourceLineNo">341</span>         * "hbML2QjyBfh-fvw5PsiF71pVLt2m3AbZ", "ggqII8lp1foy0ttolsYrTIUAm7c");<a name="line.341"></a>
-<span class="sourceLineNo">342</span>         * jbs.searchBusinesses(new BusinessQuery("Blacksburg, VA"), new<a name="line.342"></a>
-<span class="sourceLineNo">343</span>         * JsonBusinessSearchListener() {<a name="line.343"></a>
-<span class="sourceLineNo">344</span>         * <a name="line.344"></a>
-<span class="sourceLineNo">345</span>         * @Override public void onSuccess(String searchResponse) {<a name="line.345"></a>
-<span class="sourceLineNo">346</span>         * jbs.getBusinessData("gillies-cuisine-blacksburg", new<a name="line.346"></a>
-<span class="sourceLineNo">347</span>         * JsonBusinessDataListener() {<a name="line.347"></a>
-<span class="sourceLineNo">348</span>         * <a name="line.348"></a>
-<span class="sourceLineNo">349</span>         * @Override public void onSuccess(String businessData) { try {<a name="line.349"></a>
-<span class="sourceLineNo">350</span>         * jbs.save("cache.json", false); System.out.println("Saved"); } catch<a name="line.350"></a>
-<span class="sourceLineNo">351</span>         * (IOException e) { // TODO Auto-generated catch block e.printStackTrace();<a name="line.351"></a>
-<span class="sourceLineNo">352</span>         * } }<a name="line.352"></a>
-<span class="sourceLineNo">353</span>         * <a name="line.353"></a>
-<span class="sourceLineNo">354</span>         * }); } }); }<a name="line.354"></a>
-<span class="sourceLineNo">355</span>         */<a name="line.355"></a>
-<span class="sourceLineNo">356</span><a name="line.356"></a>
-<span class="sourceLineNo">357</span>}<a name="line.357"></a>
+<span class="sourceLineNo">037</span> * You can use the service offline immediately, or connect to the online<a name="line.37"></a>
+<span class="sourceLineNo">038</span> * service:<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * <a name="line.39"></a>
+<span class="sourceLineNo">040</span> * &lt;pre&gt;<a name="line.40"></a>
+<span class="sourceLineNo">041</span> * sbs.connect(&amp;quot;key&amp;quot;, &amp;quot;secret&amp;quot;, &amp;quot;token&amp;quot;, &amp;quot;secrettoken&amp;quot;);<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * &lt;/pre&gt;<a name="line.42"></a>
+<span class="sourceLineNo">043</span> * <a name="line.43"></a>
+<span class="sourceLineNo">044</span> * If you need to disconnect, it is simple:<a name="line.44"></a>
+<span class="sourceLineNo">045</span> * <a name="line.45"></a>
+<span class="sourceLineNo">046</span> * &lt;pre&gt;<a name="line.46"></a>
+<span class="sourceLineNo">047</span> * sbs.disconnect();<a name="line.47"></a>
+<span class="sourceLineNo">048</span> * &lt;/pre&gt;<a name="line.48"></a>
+<span class="sourceLineNo">049</span> * <a name="line.49"></a>
+<span class="sourceLineNo">050</span> * @author acbart<a name="line.50"></a>
+<span class="sourceLineNo">051</span> * <a name="line.51"></a>
+<span class="sourceLineNo">052</span> */<a name="line.52"></a>
+<span class="sourceLineNo">053</span>public class JsonBusinessSearch implements AbstractBusinessSearch {<a name="line.53"></a>
+<span class="sourceLineNo">054</span><a name="line.54"></a>
+<span class="sourceLineNo">055</span>        protected boolean local;<a name="line.55"></a>
+<span class="sourceLineNo">056</span>        protected OAuthService service;<a name="line.56"></a>
+<span class="sourceLineNo">057</span>        protected Token accessToken;<a name="line.57"></a>
+<span class="sourceLineNo">058</span>        private ClientStore clientStore;<a name="line.58"></a>
+<span class="sourceLineNo">059</span><a name="line.59"></a>
+<span class="sourceLineNo">060</span>        private static JsonBusinessSearch instance;<a name="line.60"></a>
+<span class="sourceLineNo">061</span><a name="line.61"></a>
+<span class="sourceLineNo">062</span>        private boolean storing = false;<a name="line.62"></a>
+<span class="sourceLineNo">063</span><a name="line.63"></a>
+<span class="sourceLineNo">064</span>        /**<a name="line.64"></a>
+<span class="sourceLineNo">065</span>         * &lt;b&gt;This method is for internal use only.&lt;/b&gt;&lt;br&gt;<a name="line.65"></a>
+<span class="sourceLineNo">066</span>         * &lt;br&gt;<a name="line.66"></a>
+<span class="sourceLineNo">067</span>         * <a name="line.67"></a>
+<span class="sourceLineNo">068</span>         * When the system is storing, any requests made to the online Yelp service<a name="line.68"></a>
+<span class="sourceLineNo">069</span>         * will be stored for future use. However, those requests will not be saved<a name="line.69"></a>
+<span class="sourceLineNo">070</span>         * between runs of your program.<a name="line.70"></a>
+<span class="sourceLineNo">071</span>         */<a name="line.71"></a>
+<span class="sourceLineNo">072</span>        public void setStoring(boolean storing) {<a name="line.72"></a>
+<span class="sourceLineNo">073</span>                this.storing = storing;<a name="line.73"></a>
+<span class="sourceLineNo">074</span>        }<a name="line.74"></a>
+<span class="sourceLineNo">075</span><a name="line.75"></a>
+<span class="sourceLineNo">076</span>        /**<a name="line.76"></a>
+<span class="sourceLineNo">077</span>         * Retrieves the singleton instance of the JsonBusinessSearch.<a name="line.77"></a>
+<span class="sourceLineNo">078</span>         * <a name="line.78"></a>
+<span class="sourceLineNo">079</span>         * @return<a name="line.79"></a>
+<span class="sourceLineNo">080</span>         */<a name="line.80"></a>
+<span class="sourceLineNo">081</span>        public static JsonBusinessSearch getInstance() {<a name="line.81"></a>
+<span class="sourceLineNo">082</span>                if (instance == null) {<a name="line.82"></a>
+<span class="sourceLineNo">083</span>                        synchronized (JsonBusinessSearch.class) {<a name="line.83"></a>
+<span class="sourceLineNo">084</span>                                if (instance == null) {<a name="line.84"></a>
+<span class="sourceLineNo">085</span>                                        instance = new JsonBusinessSearch(false);<a name="line.85"></a>
+<span class="sourceLineNo">086</span>                                }<a name="line.86"></a>
+<span class="sourceLineNo">087</span>                        }<a name="line.87"></a>
+<span class="sourceLineNo">088</span>                }<a name="line.88"></a>
+<span class="sourceLineNo">089</span>                return instance;<a name="line.89"></a>
+<span class="sourceLineNo">090</span>        }<a name="line.90"></a>
+<span class="sourceLineNo">091</span><a name="line.91"></a>
+<span class="sourceLineNo">092</span>        /**<a name="line.92"></a>
+<span class="sourceLineNo">093</span>         * &lt;b&gt;This method is for internal use only.&lt;/b&gt;&lt;br&gt;<a name="line.93"></a>
+<span class="sourceLineNo">094</span>         * &lt;br&gt;<a name="line.94"></a>
+<span class="sourceLineNo">095</span>         * <a name="line.95"></a>
+<span class="sourceLineNo">096</span>         * Retrieves the singleton instance of the JsonBusinessSearch, optionally<a name="line.96"></a>
+<span class="sourceLineNo">097</span>         * turning recording on or off.<a name="line.97"></a>
+<span class="sourceLineNo">098</span>         * <a name="line.98"></a>
+<span class="sourceLineNo">099</span>         * @return<a name="line.99"></a>
+<span class="sourceLineNo">100</span>         */<a name="line.100"></a>
+<span class="sourceLineNo">101</span>        static JsonBusinessSearch getRecordingInstance() {<a name="line.101"></a>
+<span class="sourceLineNo">102</span>                if (instance == null) {<a name="line.102"></a>
+<span class="sourceLineNo">103</span>                        synchronized (JsonBusinessSearch.class) {<a name="line.103"></a>
+<span class="sourceLineNo">104</span>                                if (instance == null) {<a name="line.104"></a>
+<span class="sourceLineNo">105</span>                                        instance = new JsonBusinessSearch(true);<a name="line.105"></a>
+<span class="sourceLineNo">106</span>                                }<a name="line.106"></a>
+<span class="sourceLineNo">107</span>                        }<a name="line.107"></a>
+<span class="sourceLineNo">108</span>                }<a name="line.108"></a>
+<span class="sourceLineNo">109</span>                return instance;<a name="line.109"></a>
+<span class="sourceLineNo">110</span>        }<a name="line.110"></a>
+<span class="sourceLineNo">111</span><a name="line.111"></a>
+<span class="sourceLineNo">112</span>        /**<a name="line.112"></a>
+<span class="sourceLineNo">113</span>         * A protected constructor to defeat instantation of this singleton.<a name="line.113"></a>
+<span class="sourceLineNo">114</span>         */<a name="line.114"></a>
+<span class="sourceLineNo">115</span>        protected JsonBusinessSearch(boolean recording) {<a name="line.115"></a>
+<span class="sourceLineNo">116</span>                disconnect();<a name="line.116"></a>
+<span class="sourceLineNo">117</span>                setStoring(recording);<a name="line.117"></a>
+<span class="sourceLineNo">118</span>                this.service = null;<a name="line.118"></a>
+<span class="sourceLineNo">119</span>                this.accessToken = null;<a name="line.119"></a>
+<span class="sourceLineNo">120</span>                this.clientStore = new ClientStore(recording);<a name="line.120"></a>
+<span class="sourceLineNo">121</span>                BusinessCategory.getCategories();<a name="line.121"></a>
+<span class="sourceLineNo">122</span>        }<a name="line.122"></a>
+<span class="sourceLineNo">123</span><a name="line.123"></a>
+<span class="sourceLineNo">124</span>        /**<a name="line.124"></a>
+<span class="sourceLineNo">125</span>         * Establishes a connection to the online Business Search service.<a name="line.125"></a>
+<span class="sourceLineNo">126</span>         * dataservice. This does not require an internet connection.&lt;br&gt;&lt;br&gt;<a name="line.126"></a>
+<span class="sourceLineNo">127</span>         * <a name="line.127"></a>
+<span class="sourceLineNo">128</span>         * Requires registration information from Yelp. To get your key go to<a name="line.128"></a>
+<span class="sourceLineNo">129</span>         * &lt;a href='http://www.yelp.com/developers'&gt;http://www.yelp.com/developers&lt;/a&gt;<a name="line.129"></a>
+<span class="sourceLineNo">130</span>         * <a name="line.130"></a>
+<span class="sourceLineNo">131</span>         * @param consumerKey<a name="line.131"></a>
+<span class="sourceLineNo">132</span>         * @param consumerSecret<a name="line.132"></a>
+<span class="sourceLineNo">133</span>         * @param token<a name="line.133"></a>
+<span class="sourceLineNo">134</span>         * @param tokenSecret<a name="line.134"></a>
+<span class="sourceLineNo">135</span>         */<a name="line.135"></a>
+<span class="sourceLineNo">136</span>        public void connect(String consumerKey, String consumerSecret,<a name="line.136"></a>
+<span class="sourceLineNo">137</span>                        String token, String tokenSecret) {<a name="line.137"></a>
+<span class="sourceLineNo">138</span>                this.local = false;<a name="line.138"></a>
+<span class="sourceLineNo">139</span>                this.service = new ServiceBuilder()<a name="line.139"></a>
+<span class="sourceLineNo">140</span>                                .provider(ServiceAuthentication.class).apiKey(consumerKey)<a name="line.140"></a>
+<span class="sourceLineNo">141</span>                                .apiSecret(consumerSecret).build();<a name="line.141"></a>
+<span class="sourceLineNo">142</span>                this.accessToken = new Token(token, tokenSecret);<a name="line.142"></a>
+<span class="sourceLineNo">143</span>        }<a name="line.143"></a>
+<span class="sourceLineNo">144</span><a name="line.144"></a>
+<span class="sourceLineNo">145</span>        /**<a name="line.145"></a>
+<span class="sourceLineNo">146</span>         * Establishes that data should be retrieved locally instead of from the<a name="line.146"></a>
+<span class="sourceLineNo">147</span>         * online service. This is the default behavior for the BusinessSearch.&lt;br&gt;<a name="line.147"></a>
+<span class="sourceLineNo">148</span>         * &lt;br&gt;<a name="line.148"></a>
+<span class="sourceLineNo">149</span>         * <a name="line.149"></a>
+<span class="sourceLineNo">150</span>         * If data is being retrieved locally, you must be sure that your parameters<a name="line.150"></a>
+<span class="sourceLineNo">151</span>         * match locally stored data. Otherwise, you will get nothing in return.<a name="line.151"></a>
+<span class="sourceLineNo">152</span>         * <a name="line.152"></a>
+<span class="sourceLineNo">153</span>         * @param local<a name="line.153"></a>
+<span class="sourceLineNo">154</span>         */<a name="line.154"></a>
+<span class="sourceLineNo">155</span>        public void disconnect() {<a name="line.155"></a>
+<span class="sourceLineNo">156</span>                this.local = true;<a name="line.156"></a>
+<span class="sourceLineNo">157</span>        }<a name="line.157"></a>
+<span class="sourceLineNo">158</span><a name="line.158"></a>
+<span class="sourceLineNo">159</span>        /**<a name="line.159"></a>
+<span class="sourceLineNo">160</span>         * The function is used to create a request to the server. By converting a<a name="line.160"></a>
+<span class="sourceLineNo">161</span>         * request to a string, you can get an accurate and storeable version of it.<a name="line.161"></a>
+<span class="sourceLineNo">162</span>         * <a name="line.162"></a>
+<span class="sourceLineNo">163</span>         * @param destination<a name="line.163"></a>
+<span class="sourceLineNo">164</span>         * @param hashMap<a name="line.164"></a>
+<span class="sourceLineNo">165</span>         * @return<a name="line.165"></a>
+<span class="sourceLineNo">166</span>         */<a name="line.166"></a>
+<span class="sourceLineNo">167</span>        OAuthRequest makeRequest(String destination, HashMap&lt;String, String&gt; hashMap) {<a name="line.167"></a>
+<span class="sourceLineNo">168</span>                OAuthRequest request = new OAuthRequest(Verb.GET,<a name="line.168"></a>
+<span class="sourceLineNo">169</span>                                "http://api.yelp.com/v2/" + destination);<a name="line.169"></a>
+<span class="sourceLineNo">170</span>                for (Entry&lt;String, String&gt; parameter : hashMap.entrySet()) {<a name="line.170"></a>
+<span class="sourceLineNo">171</span>                        String key = parameter.getKey();<a name="line.171"></a>
+<span class="sourceLineNo">172</span>                        String value = parameter.getValue();<a name="line.172"></a>
+<span class="sourceLineNo">173</span>                        request.addQuerystringParameter(key, value);<a name="line.173"></a>
+<span class="sourceLineNo">174</span>                }<a name="line.174"></a>
+<span class="sourceLineNo">175</span>                if (!this.local) {<a name="line.175"></a>
+<span class="sourceLineNo">176</span>                        this.service.signRequest(this.accessToken, request);<a name="line.176"></a>
+<span class="sourceLineNo">177</span>                }<a name="line.177"></a>
+<span class="sourceLineNo">178</span>                return request;<a name="line.178"></a>
+<span class="sourceLineNo">179</span>        }<a name="line.179"></a>
+<span class="sourceLineNo">180</span><a name="line.180"></a>
+<span class="sourceLineNo">181</span>        /**<a name="line.181"></a>
+<span class="sourceLineNo">182</span>         * This function is used to send a request to the server.<a name="line.182"></a>
+<span class="sourceLineNo">183</span>         * <a name="line.183"></a>
+<span class="sourceLineNo">184</span>         * @param request<a name="line.184"></a>
+<span class="sourceLineNo">185</span>         * @return<a name="line.185"></a>
+<span class="sourceLineNo">186</span>         */<a name="line.186"></a>
+<span class="sourceLineNo">187</span>        String sendRequest(OAuthRequest request) throws OAuthException {<a name="line.187"></a>
+<span class="sourceLineNo">188</span>                String hashedRequest = hashRequest(request);<a name="line.188"></a>
+<span class="sourceLineNo">189</span>                if (local) {<a name="line.189"></a>
+<span class="sourceLineNo">190</span>                        return clientStore.getData(hashedRequest);<a name="line.190"></a>
+<span class="sourceLineNo">191</span>                } else {<a name="line.191"></a>
+<span class="sourceLineNo">192</span>                        String response = request.send().getBody();<a name="line.192"></a>
+<span class="sourceLineNo">193</span>                        if (storing) {<a name="line.193"></a>
+<span class="sourceLineNo">194</span>                                clientStore.putData(hashedRequest, response);<a name="line.194"></a>
+<span class="sourceLineNo">195</span>                        }<a name="line.195"></a>
+<span class="sourceLineNo">196</span>                        return response;<a name="line.196"></a>
+<span class="sourceLineNo">197</span>                }<a name="line.197"></a>
+<span class="sourceLineNo">198</span>        }<a name="line.198"></a>
+<span class="sourceLineNo">199</span><a name="line.199"></a>
+<span class="sourceLineNo">200</span>        /**<a name="line.200"></a>
+<span class="sourceLineNo">201</span>         * Convert a Request object to an injective hash.&lt;br&gt;&lt;br&gt;<a name="line.201"></a>
+<span class="sourceLineNo">202</span>         * <a name="line.202"></a>
+<span class="sourceLineNo">203</span>         * An injective hash has no collisions. Hopefully that can't occur with<a name="line.203"></a>
+<span class="sourceLineNo">204</span>         * this.<a name="line.204"></a>
+<span class="sourceLineNo">205</span>         * <a name="line.205"></a>
+<span class="sourceLineNo">206</span>         * @param request<a name="line.206"></a>
+<span class="sourceLineNo">207</span>         * @return<a name="line.207"></a>
+<span class="sourceLineNo">208</span>         */<a name="line.208"></a>
+<span class="sourceLineNo">209</span>        @SuppressWarnings({ "unchecked", "rawtypes" })<a name="line.209"></a>
+<span class="sourceLineNo">210</span>        private static String hashRequest(OAuthRequest request) {<a name="line.210"></a>
+<span class="sourceLineNo">211</span>                String url = request.getUrl();<a name="line.211"></a>
+<span class="sourceLineNo">212</span>                String queryStrings = (new TreeMap(request.getQueryStringParams()))<a name="line.212"></a>
+<span class="sourceLineNo">213</span>                                .toString();<a name="line.213"></a>
+<span class="sourceLineNo">214</span>                String bodyParams = (new TreeMap(request.getBodyParams())).toString();<a name="line.214"></a>
+<span class="sourceLineNo">215</span>                return url + "%" + queryStrings + "%" + bodyParams;<a name="line.215"></a>
+<span class="sourceLineNo">216</span>        }<a name="line.216"></a>
+<span class="sourceLineNo">217</span><a name="line.217"></a>
+<span class="sourceLineNo">218</span>        /**<a name="line.218"></a>
+<span class="sourceLineNo">219</span>         * A method that will convert a Yelp error to a Java exception, if there is<a name="line.219"></a>
+<span class="sourceLineNo">220</span>         * one.<a name="line.220"></a>
+<span class="sourceLineNo">221</span>         * <a name="line.221"></a>
+<span class="sourceLineNo">222</span>         * @param response<a name="line.222"></a>
+<span class="sourceLineNo">223</span>         * @return<a name="line.223"></a>
+<span class="sourceLineNo">224</span>         */<a name="line.224"></a>
+<span class="sourceLineNo">225</span>        BusinessSearchException checkErrors(String response) {<a name="line.225"></a>
+<span class="sourceLineNo">226</span>                if (response.isEmpty()) {<a name="line.226"></a>
+<span class="sourceLineNo">227</span>                        if (local) {<a name="line.227"></a>
+<span class="sourceLineNo">228</span>                                return null;<a name="line.228"></a>
+<span class="sourceLineNo">229</span>                        } else {<a name="line.229"></a>
+<span class="sourceLineNo">230</span>                                return new BusinessSearchException(<a name="line.230"></a>
+<span class="sourceLineNo">231</span>                                                "Local",<a name="line.231"></a>
+<span class="sourceLineNo">232</span>                                                "Could not connect to the online Yelp service. Try using a local connection instead.",<a name="line.232"></a>
+<span class="sourceLineNo">233</span>                                                "");<a name="line.233"></a>
+<span class="sourceLineNo">234</span>                        }<a name="line.234"></a>
+<span class="sourceLineNo">235</span>                }<a name="line.235"></a>
+<span class="sourceLineNo">236</span>                try {<a name="line.236"></a>
+<span class="sourceLineNo">237</span>                        HashMap&lt;String, Object&gt; r = (HashMap&lt;String, Object&gt;) JsonConverter<a name="line.237"></a>
+<span class="sourceLineNo">238</span>                                        .convertToMap(response);<a name="line.238"></a>
+<span class="sourceLineNo">239</span>                        if (r.containsKey("error")) {<a name="line.239"></a>
+<span class="sourceLineNo">240</span>                                @SuppressWarnings("unchecked")<a name="line.240"></a>
+<span class="sourceLineNo">241</span>                                HashMap&lt;String, Object&gt; error = (HashMap&lt;String, Object&gt;) r<a name="line.241"></a>
+<span class="sourceLineNo">242</span>                                                .get("error");<a name="line.242"></a>
+<span class="sourceLineNo">243</span>                                return new BusinessSearchException((String) error.get("id"),<a name="line.243"></a>
+<span class="sourceLineNo">244</span>                                                (String) error.get("text"), (String) error.get("field"));<a name="line.244"></a>
+<span class="sourceLineNo">245</span>                        }<a name="line.245"></a>
+<span class="sourceLineNo">246</span>                } catch (ParseException e) {<a name="line.246"></a>
+<span class="sourceLineNo">247</span>                        return new BusinessSearchException(<a name="line.247"></a>
+<span class="sourceLineNo">248</span>                                        "Local",<a name="line.248"></a>
+<span class="sourceLineNo">249</span>                                        "The response from the Yelp Service was not valid JSON. Check the fields for more information on what was returned.",<a name="line.249"></a>
+<span class="sourceLineNo">250</span>                                        response);<a name="line.250"></a>
+<span class="sourceLineNo">251</span>                }<a name="line.251"></a>
+<span class="sourceLineNo">252</span>                return null;<a name="line.252"></a>
+<span class="sourceLineNo">253</span>        }<a name="line.253"></a>
+<span class="sourceLineNo">254</span><a name="line.254"></a>
+<span class="sourceLineNo">255</span>        /**<a name="line.255"></a>
+<span class="sourceLineNo">256</span>         * Returns data about a business given its businessId (which is a sequence<a name="line.256"></a>
+<span class="sourceLineNo">257</span>         * of characters, symbols, and numbers, e.g. "I_7cQmHxx6LokP9yr7Fx-w").<a name="line.257"></a>
+<span class="sourceLineNo">258</span>         * <a name="line.258"></a>
+<span class="sourceLineNo">259</span>         * @param businessId<a name="line.259"></a>
+<span class="sourceLineNo">260</span>         *            A string identifying the business.<a name="line.260"></a>
+<span class="sourceLineNo">261</span>         * @param listener<a name="line.261"></a>
+<span class="sourceLineNo">262</span>         *            a callback function that will consume the data (or error)<a name="line.262"></a>
+<span class="sourceLineNo">263</span>         *            about the business.<a name="line.263"></a>
+<span class="sourceLineNo">264</span>         */<a name="line.264"></a>
+<span class="sourceLineNo">265</span>        public void getBusinessData(final String businessId,<a name="line.265"></a>
+<span class="sourceLineNo">266</span>                        final JsonBusinessDataListener listener) {<a name="line.266"></a>
+<span class="sourceLineNo">267</span>                final JsonBusinessSearch _this = this;<a name="line.267"></a>
+<span class="sourceLineNo">268</span>                Thread thread = new Thread() {<a name="line.268"></a>
+<span class="sourceLineNo">269</span>                        public void run() {<a name="line.269"></a>
+<span class="sourceLineNo">270</span>                                OAuthRequest request = _this.makeRequest("business/"<a name="line.270"></a>
+<span class="sourceLineNo">271</span>                                                + businessId, new HashMap&lt;String, String&gt;());<a name="line.271"></a>
+<span class="sourceLineNo">272</span>                                String response = _this.sendRequest(request);<a name="line.272"></a>
+<span class="sourceLineNo">273</span>                                BusinessSearchException error = _this.checkErrors(response);<a name="line.273"></a>
+<span class="sourceLineNo">274</span>                                if (error == null) {<a name="line.274"></a>
+<span class="sourceLineNo">275</span>                                        listener.businessDataCompleted(response);<a name="line.275"></a>
+<span class="sourceLineNo">276</span>                                } else {<a name="line.276"></a>
+<span class="sourceLineNo">277</span>                                        listener.businessDataFailed(error);<a name="line.277"></a>
+<span class="sourceLineNo">278</span>                                }<a name="line.278"></a>
+<span class="sourceLineNo">279</span>                        }<a name="line.279"></a>
+<span class="sourceLineNo">280</span>                };<a name="line.280"></a>
+<span class="sourceLineNo">281</span>                thread.start();<a name="line.281"></a>
+<span class="sourceLineNo">282</span>        }<a name="line.282"></a>
+<span class="sourceLineNo">283</span><a name="line.283"></a>
+<span class="sourceLineNo">284</span>        /**<a name="line.284"></a>
+<span class="sourceLineNo">285</span>         * Queries the Yelp service for businesses that match the given<a name="line.285"></a>
+<span class="sourceLineNo">286</span>         * BusinessQuery. Returns the data (or error) through the listener object.<a name="line.286"></a>
+<span class="sourceLineNo">287</span>         * <a name="line.287"></a>
+<span class="sourceLineNo">288</span>         * @param query<a name="line.288"></a>
+<span class="sourceLineNo">289</span>         *            A BusinessQuery object<a name="line.289"></a>
+<span class="sourceLineNo">290</span>         * @param listener<a name="line.290"></a>
+<span class="sourceLineNo">291</span>         *            A listener object that should contain methods for handling the<a name="line.291"></a>
+<span class="sourceLineNo">292</span>         *            data and, optionally, any errors.<a name="line.292"></a>
+<span class="sourceLineNo">293</span>         */<a name="line.293"></a>
+<span class="sourceLineNo">294</span>        public void searchBusinesses(final BusinessQuery query,<a name="line.294"></a>
+<span class="sourceLineNo">295</span>                        final JsonBusinessSearchListener listener) {<a name="line.295"></a>
+<span class="sourceLineNo">296</span>                final JsonBusinessSearch _this = this;<a name="line.296"></a>
+<span class="sourceLineNo">297</span>                Thread thread = new Thread() {<a name="line.297"></a>
+<span class="sourceLineNo">298</span>                        public void run() {<a name="line.298"></a>
+<span class="sourceLineNo">299</span>                                OAuthRequest request = _this.makeRequest("search",<a name="line.299"></a>
+<span class="sourceLineNo">300</span>                                                query.getFilters());<a name="line.300"></a>
+<span class="sourceLineNo">301</span>                                String response = _this.sendRequest(request);<a name="line.301"></a>
+<span class="sourceLineNo">302</span>                                BusinessSearchException error = _this.checkErrors(response);<a name="line.302"></a>
+<span class="sourceLineNo">303</span>                                if (error == null) {<a name="line.303"></a>
+<span class="sourceLineNo">304</span>                                        listener.businessSearchCompleted(response);<a name="line.304"></a>
+<span class="sourceLineNo">305</span>                                } else {<a name="line.305"></a>
+<span class="sourceLineNo">306</span>                                        listener.businessSearchFailed(error);<a name="line.306"></a>
+<span class="sourceLineNo">307</span>                                }<a name="line.307"></a>
+<span class="sourceLineNo">308</span>                        }<a name="line.308"></a>
+<span class="sourceLineNo">309</span>                };<a name="line.309"></a>
+<span class="sourceLineNo">310</span>                thread.start();<a name="line.310"></a>
+<span class="sourceLineNo">311</span>        }<a name="line.311"></a>
+<span class="sourceLineNo">312</span><a name="line.312"></a>
+<span class="sourceLineNo">313</span>        /**<a name="line.313"></a>
+<span class="sourceLineNo">314</span>         * &lt;b&gt;This is an internal method. Do not use it!&lt;/b&gt;&lt;br&gt;<a name="line.314"></a>
+<span class="sourceLineNo">315</span>         * &lt;br&gt;<a name="line.315"></a>
+<span class="sourceLineNo">316</span>         * <a name="line.316"></a>
+<span class="sourceLineNo">317</span>         * Internal method to access this instance's local data.<a name="line.317"></a>
+<span class="sourceLineNo">318</span>         * <a name="line.318"></a>
+<span class="sourceLineNo">319</span>         * @return<a name="line.319"></a>
+<span class="sourceLineNo">320</span>         */<a name="line.320"></a>
+<span class="sourceLineNo">321</span>        public ClientStore getClientStore() {<a name="line.321"></a>
+<span class="sourceLineNo">322</span>                return clientStore;<a name="line.322"></a>
+<span class="sourceLineNo">323</span>        }<a name="line.323"></a>
+<span class="sourceLineNo">324</span><a name="line.324"></a>
+<span class="sourceLineNo">325</span>        /**<a name="line.325"></a>
+<span class="sourceLineNo">326</span>         * &lt;b&gt;This is an internal method. Do not use it.&lt;/b&gt;&lt;br&gt;<a name="line.326"></a>
+<span class="sourceLineNo">327</span>         * <a name="line.327"></a>
+<span class="sourceLineNo">328</span>         * Internal method to save the current data store to a file.<a name="line.328"></a>
+<span class="sourceLineNo">329</span>         * <a name="line.329"></a>
+<span class="sourceLineNo">330</span>         * @param file<a name="line.330"></a>
+<span class="sourceLineNo">331</span>         * @param b<a name="line.331"></a>
+<span class="sourceLineNo">332</span>         * @throws IOException<a name="line.332"></a>
+<span class="sourceLineNo">333</span>         */<a name="line.333"></a>
+<span class="sourceLineNo">334</span>        public void save(String source, boolean append) throws IOException {<a name="line.334"></a>
+<span class="sourceLineNo">335</span>                this.clientStore.save(source, append);<a name="line.335"></a>
+<span class="sourceLineNo">336</span>        }<a name="line.336"></a>
+<span class="sourceLineNo">337</span><a name="line.337"></a>
+<span class="sourceLineNo">338</span>        /*<a name="line.338"></a>
+<span class="sourceLineNo">339</span>         * public static void main(String[] args) { final JsonBusinessSearch jbs =<a name="line.339"></a>
+<span class="sourceLineNo">340</span>         * JsonBusinessSearch.getRecordingInstance();<a name="line.340"></a>
+<span class="sourceLineNo">341</span>         * jbs.connect("em86viPSqwmfF2PFfNsPEQ", "K7Dq24NKDMNNk-sz_-JMlAvDmSU",<a name="line.341"></a>
+<span class="sourceLineNo">342</span>         * "hbML2QjyBfh-fvw5PsiF71pVLt2m3AbZ", "ggqII8lp1foy0ttolsYrTIUAm7c");<a name="line.342"></a>
+<span class="sourceLineNo">343</span>         * jbs.searchBusinesses(new BusinessQuery("Blacksburg, VA"), new<a name="line.343"></a>
+<span class="sourceLineNo">344</span>         * JsonBusinessSearchListener() {<a name="line.344"></a>
+<span class="sourceLineNo">345</span>         * <a name="line.345"></a>
+<span class="sourceLineNo">346</span>         * @Override public void onSuccess(String searchResponse) {<a name="line.346"></a>
+<span class="sourceLineNo">347</span>         * jbs.getBusinessData("gillies-cuisine-blacksburg", new<a name="line.347"></a>
+<span class="sourceLineNo">348</span>         * JsonBusinessDataListener() {<a name="line.348"></a>
+<span class="sourceLineNo">349</span>         * <a name="line.349"></a>
+<span class="sourceLineNo">350</span>         * @Override public void onSuccess(String businessData) { try {<a name="line.350"></a>
+<span class="sourceLineNo">351</span>         * jbs.save("cache.json", false); System.out.println("Saved"); } catch<a name="line.351"></a>
+<span class="sourceLineNo">352</span>         * (IOException e) { // TODO Auto-generated catch block e.printStackTrace();<a name="line.352"></a>
+<span class="sourceLineNo">353</span>         * } }<a name="line.353"></a>
+<span class="sourceLineNo">354</span>         * <a name="line.354"></a>
+<span class="sourceLineNo">355</span>         * }); } }); }<a name="line.355"></a>
+<span class="sourceLineNo">356</span>         */<a name="line.356"></a>
+<span class="sourceLineNo">357</span><a name="line.357"></a>
+<span class="sourceLineNo">358</span>}<a name="line.358"></a>
 
 
 

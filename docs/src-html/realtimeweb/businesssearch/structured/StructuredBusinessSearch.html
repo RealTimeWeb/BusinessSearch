@@ -38,16 +38,16 @@
 <span class="sourceLineNo">030</span> * StructuredBusinessSearch sbs = StructuredBusinessSearch.getInstance();<a name="line.30"></a>
 <span class="sourceLineNo">031</span> * &lt;/pre&gt;<a name="line.31"></a>
 <span class="sourceLineNo">032</span> * <a name="line.32"></a>
-<span class="sourceLineNo">033</span> * Then you can either connect to the online service:<a name="line.33"></a>
+<span class="sourceLineNo">033</span> * Then you can either immediately use the service offline, or connect to the online service:<a name="line.33"></a>
 <span class="sourceLineNo">034</span> * <a name="line.34"></a>
 <span class="sourceLineNo">035</span> * &lt;pre&gt;<a name="line.35"></a>
 <span class="sourceLineNo">036</span> * sbs.connect(&amp;quot;key&amp;quot;, &amp;quot;secret&amp;quot;, &amp;quot;token&amp;quot;, &amp;quot;secrettoken&amp;quot;);<a name="line.36"></a>
 <span class="sourceLineNo">037</span> * &lt;/pre&gt;<a name="line.37"></a>
 <span class="sourceLineNo">038</span> * <a name="line.38"></a>
-<span class="sourceLineNo">039</span> * or use the service offline:<a name="line.39"></a>
+<span class="sourceLineNo">039</span> * To disconnect from the online service, simply:<a name="line.39"></a>
 <span class="sourceLineNo">040</span> * <a name="line.40"></a>
 <span class="sourceLineNo">041</span> * &lt;pre&gt;<a name="line.41"></a>
-<span class="sourceLineNo">042</span> * sbs.setLocal();<a name="line.42"></a>
+<span class="sourceLineNo">042</span> * sbs.disconnectLocal();<a name="line.42"></a>
 <span class="sourceLineNo">043</span> * &lt;/pre&gt;<a name="line.43"></a>
 <span class="sourceLineNo">044</span> * <a name="line.44"></a>
 <span class="sourceLineNo">045</span> * @author acbart<a name="line.45"></a>
@@ -227,10 +227,10 @@
 <span class="sourceLineNo">219</span><a name="line.219"></a>
 <span class="sourceLineNo">220</span>        /**<a name="line.220"></a>
 <span class="sourceLineNo">221</span>         * Establishes a connection to the online Business Search service.<a name="line.221"></a>
-<span class="sourceLineNo">222</span>         * dataservice. This requires an internet connection.<a name="line.222"></a>
+<span class="sourceLineNo">222</span>         * dataservice. This requires an internet connection.&lt;br&gt;&lt;br&gt;<a name="line.222"></a>
 <span class="sourceLineNo">223</span>         * <a name="line.223"></a>
 <span class="sourceLineNo">224</span>         * Requires registration information from Yelp. To get your key go to<a name="line.224"></a>
-<span class="sourceLineNo">225</span>         * http://www.yelp.com/developers<a name="line.225"></a>
+<span class="sourceLineNo">225</span>         * &lt;a href='http://www.yelp.com/developers'&gt;http://www.yelp.com/developers&lt;/a&gt;<a name="line.225"></a>
 <span class="sourceLineNo">226</span>         * <a name="line.226"></a>
 <span class="sourceLineNo">227</span>         * @param consumerKey<a name="line.227"></a>
 <span class="sourceLineNo">228</span>         * @param consumerSecret<a name="line.228"></a>
@@ -245,7 +245,7 @@
 <span class="sourceLineNo">237</span><a name="line.237"></a>
 <span class="sourceLineNo">238</span>        /**<a name="line.238"></a>
 <span class="sourceLineNo">239</span>         * Establishes that Business Search data should be retrieved locally. This<a name="line.239"></a>
-<span class="sourceLineNo">240</span>         * does not require an internet connection.<a name="line.240"></a>
+<span class="sourceLineNo">240</span>         * does not require an internet connection.&lt;br&gt;&lt;br&gt;<a name="line.240"></a>
 <span class="sourceLineNo">241</span>         * <a name="line.241"></a>
 <span class="sourceLineNo">242</span>         * If data is being retrieved locally, you must be sure that your parameters<a name="line.242"></a>
 <span class="sourceLineNo">243</span>         * match locally stored data. Otherwise, you will get nothing in return.<a name="line.243"></a>

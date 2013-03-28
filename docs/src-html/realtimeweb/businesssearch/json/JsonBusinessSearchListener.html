@@ -19,31 +19,32 @@
 <span class="sourceLineNo">011</span> * implementing class.&lt;br&gt;<a name="line.11"></a>
 <span class="sourceLineNo">012</span> * &lt;br&gt;<a name="line.12"></a>
 <span class="sourceLineNo">013</span> * <a name="line.13"></a>
-<span class="sourceLineNo">014</span> * Details about the JSON string returned can be found in the Yelp API<a name="line.14"></a>
-<span class="sourceLineNo">015</span> * documentation: http://www.yelp.com/developers/documentation/v2/search_api<a name="line.15"></a>
-<span class="sourceLineNo">016</span> * <a name="line.16"></a>
-<span class="sourceLineNo">017</span> * @author acbart<a name="line.17"></a>
-<span class="sourceLineNo">018</span> * <a name="line.18"></a>
-<span class="sourceLineNo">019</span> */<a name="line.19"></a>
-<span class="sourceLineNo">020</span>public interface JsonBusinessSearchListener {<a name="line.20"></a>
-<span class="sourceLineNo">021</span>        /**<a name="line.21"></a>
-<span class="sourceLineNo">022</span>         * The method that should be overridden to handle the JSON-formatted list of<a name="line.22"></a>
-<span class="sourceLineNo">023</span>         * businesses data. For reference on the data being returned, consult the<a name="line.23"></a>
-<span class="sourceLineNo">024</span>         * Yelp API documentation:<a name="line.24"></a>
-<span class="sourceLineNo">025</span>         * http://www.yelp.com/developers/documentation/v2/search_api<a name="line.25"></a>
-<span class="sourceLineNo">026</span>         * <a name="line.26"></a>
-<span class="sourceLineNo">027</span>         * @param businessData<a name="line.27"></a>
-<span class="sourceLineNo">028</span>         */<a name="line.28"></a>
-<span class="sourceLineNo">029</span>        public abstract void businessSearchCompleted(String searchResponse);<a name="line.29"></a>
-<span class="sourceLineNo">030</span><a name="line.30"></a>
-<span class="sourceLineNo">031</span>        /**<a name="line.31"></a>
-<span class="sourceLineNo">032</span>         * The method that should be overridden to handle an exception that occurred<a name="line.32"></a>
-<span class="sourceLineNo">033</span>         * while getting the JSON response of the query.<a name="line.33"></a>
-<span class="sourceLineNo">034</span>         * <a name="line.34"></a>
-<span class="sourceLineNo">035</span>         * @param exception<a name="line.35"></a>
-<span class="sourceLineNo">036</span>         */<a name="line.36"></a>
-<span class="sourceLineNo">037</span>        public abstract void businessSearchFailed(BusinessSearchException exception);<a name="line.37"></a>
-<span class="sourceLineNo">038</span>}<a name="line.38"></a>
+<span class="sourceLineNo">014</span> * Details about the JSON string returned can be found in the &lt;a<a name="line.14"></a>
+<span class="sourceLineNo">015</span> * href='http://www.yelp.com/developers/documentation/v2/search_api'&gt;Yelp API<a name="line.15"></a>
+<span class="sourceLineNo">016</span> * documentation.&lt;/a&gt;<a name="line.16"></a>
+<span class="sourceLineNo">017</span> * <a name="line.17"></a>
+<span class="sourceLineNo">018</span> * @author acbart<a name="line.18"></a>
+<span class="sourceLineNo">019</span> * <a name="line.19"></a>
+<span class="sourceLineNo">020</span> */<a name="line.20"></a>
+<span class="sourceLineNo">021</span>public interface JsonBusinessSearchListener {<a name="line.21"></a>
+<span class="sourceLineNo">022</span>        /**<a name="line.22"></a>
+<span class="sourceLineNo">023</span>         * The method that should be overridden to handle the JSON-formatted list of<a name="line.23"></a>
+<span class="sourceLineNo">024</span>         * businesses data. For reference on the data being returned, consult the &lt;a<a name="line.24"></a>
+<span class="sourceLineNo">025</span>         * href='http://www.yelp.com/developers/documentation/v2/search_api'&gt;Yelp<a name="line.25"></a>
+<span class="sourceLineNo">026</span>         * API documentation.&lt;/a&gt;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>         * <a name="line.27"></a>
+<span class="sourceLineNo">028</span>         * @param businessData<a name="line.28"></a>
+<span class="sourceLineNo">029</span>         */<a name="line.29"></a>
+<span class="sourceLineNo">030</span>        public abstract void businessSearchCompleted(String searchResponse);<a name="line.30"></a>
+<span class="sourceLineNo">031</span><a name="line.31"></a>
+<span class="sourceLineNo">032</span>        /**<a name="line.32"></a>
+<span class="sourceLineNo">033</span>         * The method that should be overridden to handle an exception that occurred<a name="line.33"></a>
+<span class="sourceLineNo">034</span>         * while getting the JSON response of the query.<a name="line.34"></a>
+<span class="sourceLineNo">035</span>         * <a name="line.35"></a>
+<span class="sourceLineNo">036</span>         * @param exception<a name="line.36"></a>
+<span class="sourceLineNo">037</span>         */<a name="line.37"></a>
+<span class="sourceLineNo">038</span>        public abstract void businessSearchFailed(BusinessSearchException exception);<a name="line.38"></a>
+<span class="sourceLineNo">039</span>}<a name="line.39"></a>
 
 
 

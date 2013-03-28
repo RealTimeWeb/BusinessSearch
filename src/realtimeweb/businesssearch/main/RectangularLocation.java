@@ -213,10 +213,10 @@ public class RectangularLocation implements Location {
 		@SuppressWarnings("unchecked")
 		HashMap<String, Object> span = (HashMap<String, Object>) region
 				.get("span");
-		double latitude = (double) center.get("latitude");
-		double longitude = (double) center.get("longitude");
-		double latitudeDelta = (double) span.get("latitude_delta");
-		double longitudeDelta = (double) span.get("longitude_delta");
+		double latitude = Double.parseDouble(center.get("latitude").toString());
+		double longitude = Double.parseDouble(center.get("longitude").toString());
+		double latitudeDelta = Double.parseDouble(span.get("latitude_delta").toString());
+		double longitudeDelta = Double.parseDouble(span.get("longitude_delta").toString());
 		RectangularLocation newLocation = new RectangularLocation(0, 0, 0, 0);
 		newLocation.center(latitude, longitude, latitudeDelta, longitudeDelta);
 		return newLocation;

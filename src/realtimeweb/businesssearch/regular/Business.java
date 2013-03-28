@@ -46,8 +46,8 @@ public class Business {
 	Business(Map<String, Object> raw) {
 		this.isComplete = true;
 		this.id = (String) raw.get("id");
-		this.isClaimed = (boolean) raw.get("is_claimed");
-		this.isClosed = (boolean) raw.get("is_closed");
+		this.isClaimed = Boolean.parseBoolean(raw.get("is_claimed").toString());
+		this.isClosed = Boolean.parseBoolean(raw.get("is_closed").toString());
 		this.name = (String) raw.get("name");
 		this.imageUrl = (String) raw.get("image_url");
 		this.url = (String) raw.get("url");
@@ -374,8 +374,8 @@ public class Business {
 	void fillIn(Map<String, Object> raw) {
 		this.isComplete = true;
 		this.id = (String) raw.get("id");
-		this.isClaimed = (boolean) raw.get("is_claimed");
-		this.isClosed = (boolean) raw.get("is_closed");
+		this.isClaimed = Boolean.parseBoolean(raw.get("is_claimed").toString());
+		this.isClosed = Boolean.parseBoolean(raw.get("is_closed").toString());
 		this.name = (String) raw.get("name");
 		this.imageUrl = (String) raw.get("image_url");
 		this.url = (String) raw.get("url");

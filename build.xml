@@ -8,17 +8,16 @@
 	<property name="bin" location="bin"/>
 	<property name="dist" location="dist"/>
 	<property name="docs" location="docs"/>
-	<propertyfile file=".properties">
+	<property name="ver" value="0.9"/>
+	<!-- <propertyfile file=".properties">
 		<entry key="docs" value="docs/" />
-	</propertyfile>
+	</propertyfile>-->
 	
 	<path id="classpath">
 		<fileset dir="libs" includes="**/*.jar" />
 	</path>
 	
 	<target name="init">
-	    <!-- Create the time stamp -->
-	    <tstamp/>
 	    <!-- Create the build directory structure used by compile -->
 	    <mkdir dir="${bin}"/>
 		<!-- Create the doc directory structure used by compile -->
@@ -35,12 +34,12 @@
 		<!-- Compile Javadoc -->
 		<javadoc  
 		      use='true' author='true'  version='true'
-		      overview='overview.html'  
+		      overview='index.html'  
 		      access='package' 
 		      sourcepath='src'
 		      packagenames='*.*' 
 		      destdir='${docs}'
-		      windowtitle='${app.name} ${app.version}'
+		      windowtitle='BusinessSearch: version ${ver}'
 		      noqualifier='java.*:javax.*:com.sun.*'   
 		      linksource='true'
 		    />
@@ -51,20 +50,20 @@
 	    <mkdir dir="${dist}"/>
 
 	    <!-- Put everything in ${build} into the BusinessSearch-${DSTAMP}.jar file -->
-	    <jar jarfile="${dist}/BusinessSearch-${DSTAMP}.jar" basedir="${bin}">
+	    <jar jarfile="${dist}/BusinessSearch-${ver}.jar" basedir="${bin}">
 	    	<fileset dir="bin" includes="bin/*.class" />
 			<zipgroupfileset dir="libs/" includes="*.jar" />
 		</jar>
 		
 		<!-- Put everything in ${build} and ${docs} into the BusinessSearch-doc-${DSTAMP}.jar file -->
-		<jar jarfile="${dist}/BusinessSearch-doc-${DSTAMP}.jar" basedir="${bin}">
+		<jar jarfile="${dist}/BusinessSearch-doc-${ver}.jar" basedir="${bin}">
 	    	<fileset dir="bin" includes="bin/*.class" />
 			<fileset dir="docs" includes="**" />
 			<zipgroupfileset dir="libs/" includes="*.jar" />
 		</jar>
 		
 		<!-- Put everything in ${build} and ${src} into the BusinessSearch-src-${DSTAMP}.jar file -->
-		<jar jarfile="${dist}/BusinessSearch-doc-${DSTAMP}.jar" basedir="${bin}">
+		<jar jarfile="${dist}/BusinessSearch-src-${ver}.jar" basedir="${bin}">
 	    	<fileset dir="bin" includes="bin/*.class" />
 			<fileset dir="src" includes="**" />
 			<zipgroupfileset dir="libs/" includes="*.jar" />

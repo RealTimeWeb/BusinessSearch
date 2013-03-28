@@ -27,7 +27,7 @@ public class DealOption {
 				.toString()));
 		this.originalPriceFormatted = (String) raw
 				.get("formatted_original_price");
-		this.isQuantityLimited = (boolean) raw.get("is_quantity_limited");
+		this.isQuantityLimited = Boolean.parseBoolean(raw.get("is_quantity_limited").toString());
 		this.remainingCount = -1;
 		if (raw.containsKey("remaining_count")) {
 			this.remainingCount = Integer.parseInt((raw.get("remaining_count")
