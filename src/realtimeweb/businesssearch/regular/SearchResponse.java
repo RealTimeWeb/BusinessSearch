@@ -40,7 +40,9 @@ public class SearchResponse {
 				.get("businesses")).iterator();
 		while (i.hasNext()) {
 			HashMap<String, Object> value = i.next();
-			this.businesses.add(new Business(value));
+			Business b = new Business(value);
+			b.setIsComplete(false);
+			this.businesses.add(b);
 		}
 	}
 

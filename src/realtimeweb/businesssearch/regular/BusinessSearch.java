@@ -68,6 +68,27 @@ public class BusinessSearch implements AbstractBusinessSearch {
 
 	private StructuredBusinessSearch structuredBusinessSearch;
 
+	public void getBusinessData(final Business incompleteBusiness,
+			final BusinessDataListener listener) {
+		this.structuredBusinessSearch.getBusinessData(incompleteBusiness.getId(),
+				new StructuredBusinessDataListener() {
+
+					@Override
+					public void businessDataCompleted(
+							Map<String, Object> business) {
+						incompleteBusiness.fillIn(business);
+						listener.businessDataCompleted(incompleteBusiness);
+					}
+
+					@Override
+					public void businessDataFailed(
+							BusinessSearchException exception) {
+						listener.businessDataFailed(exception);
+					}
+
+				});
+	}
+
 	/**
 	 * Returns data about a business given its businessId (which is a sequence
 	 * of characters, symbols, and numbers, e.g. "I_7cQmHxx6LokP9yr7Fx-w").
@@ -84,12 +105,14 @@ public class BusinessSearch implements AbstractBusinessSearch {
 				new StructuredBusinessDataListener() {
 
 					@Override
-					public void businessDataCompleted(Map<String, Object> business) {
+					public void businessDataCompleted(
+							Map<String, Object> business) {
 						listener.businessDataCompleted(new Business(business));
 					}
 
 					@Override
-					public void businessDataFailed(BusinessSearchException exception) {
+					public void businessDataFailed(
+							BusinessSearchException exception) {
 						listener.businessDataFailed(exception);
 					}
 
@@ -112,12 +135,15 @@ public class BusinessSearch implements AbstractBusinessSearch {
 				new StructuredBusinessSearchListener() {
 
 					@Override
-					public void businessSearchCompleted(Map<String, Object> response) {
-						listener.businessSearchCompleted(new SearchResponse(response));
+					public void businessSearchCompleted(
+							Map<String, Object> response) {
+						listener.businessSearchCompleted(new SearchResponse(
+								response));
 					}
 
 					@Override
-					public void businessSearchFailed(BusinessSearchException exception) {
+					public void businessSearchFailed(
+							BusinessSearchException exception) {
 						listener.businessSearchFailed(exception);
 					}
 
@@ -158,27 +184,30 @@ public class BusinessSearch implements AbstractBusinessSearch {
 	public static void main(String[] args) {
 		final BusinessSearch bs = BusinessSearch.getInstance();
 		bs.disconnect();
-		/*bs.searchBusinesses(new BusinessQuery("Blacksburg, VfA"), new BusinessSearchListener() {
+		/*
+		 * bs.searchBusinesses(new BusinessQuery("Blacksburg, VfA"), new
+		 * BusinessSearchListener() {
+		 * 
+		 * @Override public void onSuccess(SearchResponse searchResponse) {
+		 * System.out.println(searchResponse); }
+		 * 
+		 * });
+		 */
+		bs.getBusinessData("gillies-cuisine-blacksburg",
+				new BusinessDataListener() {
 
-			@Override
-			public void onSuccess(SearchResponse searchResponse) {
-				System.out.println(searchResponse);
-			}
+					@Override
+					public void businessDataCompleted(Business business) {
+						System.out.println(business);
+					}
 
-		});*/
-		bs.getBusinessData("gillies-cuisine-blacksburg", new BusinessDataListener() {
+					@Override
+					public void businessDataFailed(
+							BusinessSearchException exception) {
+						System.err.println(exception);
+					}
 
-			@Override
-			public void businessDataCompleted(Business business) {
-				System.out.println(business);
-			}
-
-			@Override
-			public void businessDataFailed(BusinessSearchException exception) {
-				System.err.println(exception);
-			}
-			
-		});
+				});
 	}
 
 }

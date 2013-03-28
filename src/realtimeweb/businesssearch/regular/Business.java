@@ -40,9 +40,11 @@ public class Business {
 	private List<Deal> deals;
 	private List<GiftCertificate> giftCertificates;
 	private List<Review> reviews;
+	private boolean isComplete;
 
 	@SuppressWarnings("unchecked")
 	Business(Map<String, Object> raw) {
+		this.isComplete = true;
 		this.id = (String) raw.get("id");
 		this.isClaimed = (boolean) raw.get("is_claimed");
 		this.isClosed = (boolean) raw.get("is_closed");
@@ -330,11 +332,103 @@ public class Business {
 	 * Returns the rating for this business (value ranges from 1, 1.5, ... 4.5,
 	 * 5). If you want to get an image representation of this rating, you can
 	 * use {@link #getRatingImageUrl()}, and if you want a smaller or larger
-	 * version you can use {@link #getRatingImageUrlLarge()} or {@link #getRatingImageUrlSmall()}.
+	 * version you can use {@link #getRatingImageUrlLarge()} or
+	 * {@link #getRatingImageUrlSmall()}.
 	 * 
 	 * @return
 	 */
 	public float getRating() {
 		return rating;
+	}
+
+	/**
+	 * An internal method to signal that this Business is only a preview, as
+	 * opposed to a full view.
+	 * 
+	 * @param isComplete
+	 */
+	void setIsComplete(boolean isComplete) {
+		this.isComplete = isComplete;
+	}
+
+	/**
+	 * Returns whether this is a fully-defined Business (gotten via a
+	 * getBusinessData call), or just a shallow preview returned via a
+	 * SearchResponse. If the latter, then you can use
+	 * {@link BusinessSearch#getBusinessData getBusinessData} to fill out its
+	 * information.
+	 * 
+	 * @return
+	 */
+	public boolean isComplete() {
+		return this.isComplete;
+	}
+
+	@SuppressWarnings("unchecked")
+	void fillIn(Map<String, Object> raw) {
+		this.isComplete = true;
+		this.id = (String) raw.get("id");
+		this.isClaimed = (boolean) raw.get("is_claimed");
+		this.isClosed = (boolean) raw.get("is_closed");
+		this.name = (String) raw.get("name");
+		this.imageUrl = (String) raw.get("image_url");
+		this.url = (String) raw.get("url");
+		this.mobileUrl = (String) raw.get("mobile_url");
+		this.phone = (String) raw.get("phone");
+		this.displayPhone = (String) raw.get("display_phone");
+		this.reviewCount = Integer
+				.parseInt((raw.get("review_count").toString()));
+
+		this.categories.clear();
+		if (raw.get("categories") != null) {
+			Iterator<ArrayList<String>> i = ((ArrayList<ArrayList<String>>) raw
+					.get("categories")).iterator();
+			while (i.hasNext()) {
+				this.categories.add(BusinessCategory.getFromAlias(i.next()));
+			}
+		}
+
+		if (raw.containsKey("distance")) {
+			this.distance = Double
+					.parseDouble((raw.get("distance").toString()));
+		} else {
+			this.distance = -1;
+		}
+		this.rating = Float.parseFloat((raw.get("rating").toString()));
+
+		this.ratingImageUrl = (String) raw.get("rating_image_url");
+		this.ratingImageUrlSmall = (String) raw.get("rating_image_url_small");
+		this.ratingImageUrlLarge = (String) raw.get("rating_image_url_large");
+		this.snippetText = (String) raw.get("snippet_text");
+		this.snippetImageUrl = (String) raw.get("snippet_image_url");
+		this.location = new DetailedLocation(
+				(HashMap<String, Object>) raw.get("location"));
+
+		this.deals.clear();
+		if (raw.containsKey("deals")) {
+			Iterator<HashMap<String, Object>> d = ((ArrayList<HashMap<String, Object>>) raw
+					.get("deals")).iterator();
+			while (d.hasNext()) {
+				this.deals.add(new Deal(d.next()));
+			}
+		}
+
+		this.giftCertificates.clear();
+		if (raw.containsKey("gift_certificates")) {
+			Iterator<HashMap<String, Object>> g = ((ArrayList<HashMap<String, Object>>) raw
+					.get("gift_certificates")).iterator();
+			while (g.hasNext()) {
+				this.giftCertificates.add(new GiftCertificate(g.next()));
+			}
+		}
+
+		this.reviews.clear();
+		if (raw.containsKey("reviews")) {
+			Iterator<HashMap<String, Object>> r = ((ArrayList<HashMap<String, Object>>) raw
+					.get("reviews")).iterator();
+			while (r.hasNext()) {
+				this.reviews.add(new Review(r.next()));
+			}
+		}
 	}
 }
