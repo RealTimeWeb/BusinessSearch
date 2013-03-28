@@ -8,8 +8,8 @@ import realtimeweb.businesssearch.exceptions.BusinessSearchException;
  * A listener for handling data received about a list of businesses. On success,
  * a Map containing all the information about the List of Businesses will be
  * passed to the businessSearchCompleted method, which must be overridden in any
- * implementing classes. On failure, an exception is passed to
- * the businessSearchFailed method, which must also be overridden in any
+ * implementing classes. On failure, an exception is passed to the
+ * businessSearchFailed method, which must also be overridden in any
  * implementing class.<br>
  * <br>
  * 

@@ -21,8 +21,8 @@ import realtimeweb.businesssearch.util.Util;
  * subsubcategories of their own!). A business can be in more than one category
  * at a time.
  * 
- * The static method <i>getCategories</i> is provided to get a complete listing
- * of the entire Business Category hierarchy.
+ * The static method {@link #getCategories} is provided to get a complete
+ * listing of the entire Business Category hierarchy.
  * 
  * @author acbart
  * 
@@ -58,7 +58,7 @@ public class BusinessCategory {
 	/**
 	 * Opens up the categories.json file, a file in the jar that stores all the
 	 * categories and their associated metadata, and returns it as a string. All
-	 * data is arranged hierarchically.
+	 * data is arranged hierarchically.<br><br>
 	 * 
 	 * Yes. It is simply reading in a file and returning it as a string.
 	 * 
@@ -248,7 +248,7 @@ public class BusinessCategory {
 	}
 
 	/**
-	 * For internal use only. Returns the BusinessCategory associated with the
+	 * <b>For internal use only.</b><br><br> Returns the BusinessCategory associated with the
 	 * title and alias stored in the Tuple passed in.
 	 * 
 	 * @param titleAliasPair

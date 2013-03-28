@@ -1,32 +1,80 @@
 <?xml version="1.0"?>
-<project name="Ant-build" basedir="." default="single-jar">
-
+<project name="Build BusinessSearch" basedir="." default="dist">
+	<description>
+		A build file to generate a distributable .jar for the RealTimeWeb BusinessSearch.
+	</description>
+	
+	<property name="src" location="src"/>
+	<property name="bin" location="bin"/>
+	<property name="dist" location="dist"/>
+	<property name="docs" location="docs"/>
+	<propertyfile file=".properties">
+		<entry key="docs" value="docs/" />
+	</propertyfile>
+	
 	<path id="classpath">
 		<fileset dir="libs" includes="**/*.jar" />
 	</path>
-
-	<target name="single-jar">
-		<delete dir="bin/" />
-		<mkdir dir="bin" />
-		<javac srcdir="src" destdir="bin" classpathref="classpath" />
+	
+	<target name="init">
+	    <!-- Create the time stamp -->
+	    <tstamp/>
+	    <!-- Create the build directory structure used by compile -->
+	    <mkdir dir="${bin}"/>
+		<!-- Create the doc directory structure used by compile -->
+		<mkdir dir="${docs}"/>
+	</target>
+	
+	<target name="compile" depends="init" description="Compile the source" >
+	    <!-- Compile the java code from ${src} into ${build} -->
+	    <javac srcdir="${src}" destdir="${bin}" classpathref="classpath"/>
+		<!-- Copy all the non-.java files to ${build} -->
 		<copy todir="bin">
 			<fileset dir="src" excludes="**/*.java" />
 		</copy>
-		<propertyfile file=".properties">
-			<entry key="doc" value="doc/" />
-		</propertyfile>
-		<jar destfile="bin/BusinessSearch.jar" basedir="bin/">
-			<fileset dir="bin" includes="bin/*.class" />
+		<!-- Compile Javadoc -->
+		<javadoc  
+		      use='true' author='true'  version='true'
+		      overview='overview.html'  
+		      access='package' 
+		      sourcepath='src'
+		      packagenames='*.*' 
+		      destdir='${docs}'
+		      windowtitle='${app.name} ${app.version}'
+		      noqualifier='java.*:javax.*:com.sun.*'   
+		      linksource='true'
+		    />
+	</target>
+	
+	<target name="dist" depends="compile" description="Generate the Distribution files" >
+	    <!-- Create the distribution directory -->
+	    <mkdir dir="${dist}"/>
+
+	    <!-- Put everything in ${build} into the BusinessSearch-${DSTAMP}.jar file -->
+	    <jar jarfile="${dist}/BusinessSearch-${DSTAMP}.jar" basedir="${bin}">
+	    	<fileset dir="bin" includes="bin/*.class" />
+			<zipgroupfileset dir="libs/" includes="*.jar" />
+		</jar>
+		
+		<!-- Put everything in ${build} and ${docs} into the BusinessSearch-doc-${DSTAMP}.jar file -->
+		<jar jarfile="${dist}/BusinessSearch-doc-${DSTAMP}.jar" basedir="${bin}">
+	    	<fileset dir="bin" includes="bin/*.class" />
+			<fileset dir="docs" includes="**" />
+			<zipgroupfileset dir="libs/" includes="*.jar" />
+		</jar>
+		
+		<!-- Put everything in ${build} and ${src} into the BusinessSearch-src-${DSTAMP}.jar file -->
+		<jar jarfile="${dist}/BusinessSearch-doc-${DSTAMP}.jar" basedir="${bin}">
+	    	<fileset dir="bin" includes="bin/*.class" />
+			<fileset dir="src" includes="**" />
 			<zipgroupfileset dir="libs/" includes="*.jar" />
 		</jar>
 	</target>
-
-	<target name="javadoc">
-		<delete dir="bin/" />
-		<mkdir dir="bin" />
-		<copy todir="bin/doc">
-			<fileset dir="doc" includes="**" />
-		</copy>
-		<jar destfile="bin/BusinessSearch-javadoc.jar" basedir="bin/" />
+	
+		
+	<target name="clean" description="Clean up the files" >
+	    <!-- Delete the ${build} and ${dist} directory trees -->
+	    <delete dir="${bin}"/>
+	    <delete dir="${dist}"/>
 	</target>
 </project>

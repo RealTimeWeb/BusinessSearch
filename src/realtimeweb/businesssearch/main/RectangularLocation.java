@@ -42,7 +42,7 @@ public class RectangularLocation implements Location {
 
 	/**
 	 * <b>
-	 * This is an internal method. Please ignore it.</b><br>
+	 * This is an internal method. Please ignore it.</b><br><br>
 	 * 
 	 * A method for converting the Location to a representation that can be used
 	 * to construct a query.
@@ -200,7 +200,7 @@ public class RectangularLocation implements Location {
 	}
 
 	/**
-	 * <b>This is an internal method. Please ignore it.</b><br>
+	 * <b>This is an internal method. Please ignore it.</b><br><br>
 	 * Creates a new RectangularLocation from a dictionary of key-value pairs.
 	 * 
 	 * @param region

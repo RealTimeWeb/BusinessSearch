@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package realtimeweb.businesssearch.structured;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>import java.util.Map;<a name="line.3"></a>
+<span class="sourceLineNo">004</span><a name="line.4"></a>
+<span class="sourceLineNo">005</span>import realtimeweb.businesssearch.exceptions.BusinessSearchException;<a name="line.5"></a>
+<span class="sourceLineNo">006</span><a name="line.6"></a>
+<span class="sourceLineNo">007</span>/**<a name="line.7"></a>
+<span class="sourceLineNo">008</span> * A listener for handling data received about a list of businesses. On success,<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * a Map containing all the information about the List of Businesses will be<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * passed to the businessSearchCompleted method, which must be overridden in any<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * implementing classes. On failure, an exception is passed to the<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * businessSearchFailed method, which must also be overridden in any<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * implementing class.&lt;br&gt;<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * &lt;br&gt;<a name="line.14"></a>
+<span class="sourceLineNo">015</span> * <a name="line.15"></a>
+<span class="sourceLineNo">016</span> * Details about the fields of the Map returned can be found in the Yelp API<a name="line.16"></a>
+<span class="sourceLineNo">017</span> * documentation: http://www.yelp.com/developers/documentation/v2/search_api<a name="line.17"></a>
+<span class="sourceLineNo">018</span> * <a name="line.18"></a>
+<span class="sourceLineNo">019</span> * @author acbart<a name="line.19"></a>
+<span class="sourceLineNo">020</span> * <a name="line.20"></a>
+<span class="sourceLineNo">021</span> */<a name="line.21"></a>
+<span class="sourceLineNo">022</span>public interface StructuredBusinessSearchListener {<a name="line.22"></a>
+<span class="sourceLineNo">023</span>        /**<a name="line.23"></a>
+<span class="sourceLineNo">024</span>         * The method that should be overridden to handle the Map of the list of<a name="line.24"></a>
+<span class="sourceLineNo">025</span>         * businesses. For reference on the data being returned, consult the Yelp<a name="line.25"></a>
+<span class="sourceLineNo">026</span>         * API documentation:<a name="line.26"></a>
+<span class="sourceLineNo">027</span>         * http://www.yelp.com/developers/documentation/v2/search_api<a name="line.27"></a>
+<span class="sourceLineNo">028</span>         * <a name="line.28"></a>
+<span class="sourceLineNo">029</span>         * @param businessData<a name="line.29"></a>
+<span class="sourceLineNo">030</span>         */<a name="line.30"></a>
+<span class="sourceLineNo">031</span>        public abstract void businessSearchCompleted(<a name="line.31"></a>
+<span class="sourceLineNo">032</span>                        Map&lt;String, Object&gt; searchResponse);<a name="line.32"></a>
+<span class="sourceLineNo">033</span><a name="line.33"></a>
+<span class="sourceLineNo">034</span>        /**<a name="line.34"></a>
+<span class="sourceLineNo">035</span>         * The method that should be overridden to handle an exception that occurred<a name="line.35"></a>
+<span class="sourceLineNo">036</span>         * while getting the search response.<a name="line.36"></a>
+<span class="sourceLineNo">037</span>         * <a name="line.37"></a>
+<span class="sourceLineNo">038</span>         * @param exception<a name="line.38"></a>
+<span class="sourceLineNo">039</span>         */<a name="line.39"></a>
+<span class="sourceLineNo">040</span>        public abstract void businessSearchFailed(BusinessSearchException exception);<a name="line.40"></a>
+<span class="sourceLineNo">041</span>}<a name="line.41"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

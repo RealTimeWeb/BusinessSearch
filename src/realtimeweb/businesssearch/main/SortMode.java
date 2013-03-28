@@ -14,12 +14,19 @@ package realtimeweb.businesssearch.main;
  */
 public enum SortMode {
 	BEST_MATCHED, DISTANCE, HIGHEST_RATED;
-	
+
+	/**
+	 * Returns a human-readable version of this Sort Mode.
+	 */
 	public String toString() {
 		switch (this) {
-		default: case BEST_MATCHED: return "Best Matched";
-		case DISTANCE: return "Distance";
-		case HIGHEST_RATED: return "Highest Rated";
+		default:
+		case BEST_MATCHED:
+			return "Best Matched";
+		case DISTANCE:
+			return "Distance";
+		case HIGHEST_RATED:
+			return "Highest Rated";
 		}
 	}
 }

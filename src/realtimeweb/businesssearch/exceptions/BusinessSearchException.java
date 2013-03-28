@@ -4,8 +4,9 @@ package realtimeweb.businesssearch.exceptions;
  * A generic exception thrown when there is an error with the Yelp service. The
  * ID indicates if it is a local, client side error (e.g. no internet
  * connection) or if it's a Yelp error. More information about Yelp errors can
- * be found on the Yelp help page
- * (http://www.yelp.com/developers/documentation/v2/errors)
+ * be found on the <a
+ * href='http://www.yelp.com/developers/documentation/v2/errors'>Yelp help
+ * page</a>
  * 
  * Additional information can also sometimes be found by inspecting the "fields"
  * property.
@@ -51,10 +52,11 @@ public class BusinessSearchException extends Exception {
 	}
 
 	/**
-	 * Gets the ID of the exception. More information about this ID may be available
-	 * on http://www.yelp.com/developers/documentation/v2/errors, unless it is
-	 * "local", which indicates a client error (in which case you should check
-	 * the Message).
+	 * Gets the ID of the exception. More information about this ID may be
+	 * available on <a
+	 * href='http://www.yelp.com/developers/documentation/v2/errors'>the Yelp
+	 * error page</a>, unless it is "local", which indicates a client error (in
+	 * which case you should check the Message).
 	 * 
 	 * @return
 	 */
@@ -63,7 +65,8 @@ public class BusinessSearchException extends Exception {
 	}
 
 	/**
-	 * Gets more information about the exception. Usually a single sentence briefly describing this type of exception.
+	 * Gets more information about the exception. Usually a single sentence
+	 * briefly describing this type of exception.
 	 */
 	@Override
 	public String getMessage() {
@@ -71,30 +74,48 @@ public class BusinessSearchException extends Exception {
 	}
 
 	/**
-	 * Optional. Might contain more detailed information about the specific kind of exception that occurred. 
+	 * Optional. Might contain more detailed information about the specific kind
+	 * of exception that occurred.
+	 * 
 	 * @return
 	 */
 	public String getDetails() {
 		return details;
 	}
-	
-	public static BusinessSearchException generateSpecificException(String id, String message, String details) {
+
+	public static BusinessSearchException generateSpecificException(String id,
+			String message, String details) {
 		switch (id) {
-		case "INTERNAL_ERROR": return new InternalErrorException(id, message, details);
-		case "EXCEEDED_REQS": return new ExceededReqsException(id, message, details);
-		case "MISSING_PARAMETER": return new MissingParameterException(id, message, details);
-		case "INVALID_PARAMETER": return new InvalidParameterException(id, message, details);
-		case "INVALID_SIGNATURE": return new InvalidSignatureException(id, message, details);
-		case "INVALID_CREDENTIALS": return new InvalidCredentialsException(id, message, details);
-		case "INVALID_OAUTH_CREDENTIALS": return new InvalidOAuthCredentialsException(id, message, details);
-		case "INVALID_OAUTH_USER": return new InvalidOAuthUserException(id, message, details);
-		case "ACCOUNT_UNCONFIRMED": return new AccountUnconfirmedException(id, message, details);
-		case "PASSWORD_TOO_LONG": return new PasswordTooLongException(id, message, details);
-		case "UNAVAILABLE_FOR_LOCATION": return new UnavailableForLocationException(id, message, details);
-		case "AREA_TOO_LARGE": return new AreaTooLargeException(id, message, details);
-		case "MULTIPLE_LOCATIONS": return new MultipleLocationsException(id, message, details);
-		case "BUSINESS_UNAVAILABLE": return new BusinessUnavailableException(id, message, details);
-		default: return new BusinessSearchException(id, message, details);
+		case "INTERNAL_ERROR":
+			return new InternalErrorException(id, message, details);
+		case "EXCEEDED_REQS":
+			return new ExceededReqsException(id, message, details);
+		case "MISSING_PARAMETER":
+			return new MissingParameterException(id, message, details);
+		case "INVALID_PARAMETER":
+			return new InvalidParameterException(id, message, details);
+		case "INVALID_SIGNATURE":
+			return new InvalidSignatureException(id, message, details);
+		case "INVALID_CREDENTIALS":
+			return new InvalidCredentialsException(id, message, details);
+		case "INVALID_OAUTH_CREDENTIALS":
+			return new InvalidOAuthCredentialsException(id, message, details);
+		case "INVALID_OAUTH_USER":
+			return new InvalidOAuthUserException(id, message, details);
+		case "ACCOUNT_UNCONFIRMED":
+			return new AccountUnconfirmedException(id, message, details);
+		case "PASSWORD_TOO_LONG":
+			return new PasswordTooLongException(id, message, details);
+		case "UNAVAILABLE_FOR_LOCATION":
+			return new UnavailableForLocationException(id, message, details);
+		case "AREA_TOO_LARGE":
+			return new AreaTooLargeException(id, message, details);
+		case "MULTIPLE_LOCATIONS":
+			return new MultipleLocationsException(id, message, details);
+		case "BUSINESS_UNAVAILABLE":
+			return new BusinessUnavailableException(id, message, details);
+		default:
+			return new BusinessSearchException(id, message, details);
 		}
 	}
 }

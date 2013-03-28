@@ -13,8 +13,8 @@ import java.util.Map;
  * 45)</li>
  * <li>{@link RectangularLocation} - Represented by a pair of lat/longs (e.g.
  * 42, 45 to 33, 37)</li>
- * <li>{@link regular.DetailedLocation DetailedLocation} - Represented by a
- * coordinate and a postal address</li>
+ * <li>{@link realtimeweb.businesssearch.regular.DetailedLocation
+ * DetailedLocation} - Represented by a coordinate and a postal address</li>
  * </ul>
  * 
  * @author acbart
@@ -23,7 +23,7 @@ import java.util.Map;
 public interface Location {
 
 	/**
-	 * <br>This is an internal method. Please ignore it.</b><br>
+	 * <b> This is an internal method. Please ignore it.</b><br><br>
 	 * 
 	 * A method for converting the Location to a representation that can be used
 	 * to construct a query.

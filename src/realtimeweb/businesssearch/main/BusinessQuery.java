@@ -44,49 +44,55 @@ public class BusinessQuery {
 	private boolean hasSortMode;
 	private boolean hasLimit;
 	private boolean hasOffset;
-	
+
 	/**
 	 * Returns whether there is a Term Filter.
+	 * 
 	 * @return
 	 */
 	public boolean hasTermFilter() {
 		return hasTerm;
 	}
-	
+
 	/**
 	 * Returns whether there is a Categories Filter.
+	 * 
 	 * @return
 	 */
 	public boolean hasCategoriesFilter() {
 		return hasCategories;
 	}
-	
+
 	/**
 	 * Returns whether there is a Deals filter
+	 * 
 	 * @return
 	 */
 	public boolean hasDealsFilter() {
 		return hasDeals;
 	}
-	
+
 	/**
 	 * Returns whether the results will be sorted.
+	 * 
 	 * @return
 	 */
 	public boolean hasSortMode() {
 		return hasSortMode;
 	}
-	
+
 	/**
 	 * Returns whether the results will be limited.
+	 * 
 	 * @return
 	 */
 	public boolean hasLimit() {
 		return hasLimit;
 	}
-	
+
 	/**
 	 * Returns whether the results will be offset.
+	 * 
 	 * @return
 	 */
 	public boolean hasOffset() {
@@ -118,7 +124,8 @@ public class BusinessQuery {
 	/**
 	 * Limit the radius of this query. Results will only be returned if they are
 	 * within <b>radius</b> meters of the given location. If the value is too
-	 * large, an {@link exceptions.AreaTooLargeException#AreaTooLargeException
+	 * large, an
+	 * {@link realtimeweb.businesssearch.exceptions.AreaTooLargeException#AreaTooLargeException
 	 * AreaTooLargeException} error may be returned. The max value is 40000
 	 * meters (25 miles).
 	 * 
@@ -173,9 +180,9 @@ public class BusinessQuery {
 	/**
 	 * Filters the results by categories, returning only results that fall into
 	 * the given categories. BusinessCategories can be found via the
-	 * {@link BusinessCategory#getCategories() getCategories} method. An
-	 * arbitrary number of categories can be included. You can also search via
-	 * the category's alias by passing in Strings, but you cannot mix
+	 * {@link BusinessCategory#getCategories getCategories} method. An arbitrary
+	 * number of categories can be included. You can also search via the
+	 * category's alias by passing in Strings, but you cannot mix
 	 * BusinessCategories and Strings.
 	 * 
 	 * @param categories
@@ -394,7 +401,8 @@ public class BusinessQuery {
 	}
 
 	/**
-	 * Remove any "pagination". This is the same as removing a result limit and any offset.
+	 * Remove any "pagination". This is the same as removing a result limit and
+	 * any offset.
 	 * 
 	 * @return This BusinessQuery instance, allowing you to chain together other
 	 *         filters.

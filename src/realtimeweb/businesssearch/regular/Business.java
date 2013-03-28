@@ -364,6 +364,12 @@ public class Business {
 		return this.isComplete;
 	}
 
+	/**
+	 * <b>This is an internal method, please ignore it.</b><br><br>
+	 * 
+	 * Fills in any missing data to this Business from a given map. 
+	 * @param raw
+	 */
 	@SuppressWarnings("unchecked")
 	void fillIn(Map<String, Object> raw) {
 		this.isComplete = true;

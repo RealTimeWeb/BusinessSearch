@@ -34,16 +34,17 @@ import realtimeweb.businesssearch.util.JsonConverter;
  * StructuredBusinessSearch sbs = StructuredBusinessSearch.getInstance();
  * </pre>
  * 
- * Then you can either connect to the online service:
+ * You can use the service offline immediately, or connect to the online
+ * service:
  * 
  * <pre>
  * sbs.connect(&quot;key&quot;, &quot;secret&quot;, &quot;token&quot;, &quot;secrettoken&quot;);
  * </pre>
  * 
- * or use the service offline:
+ * If you need to disconnect, it is simple:
  * 
  * <pre>
- * sbs.setLocal();
+ * sbs.disconnect();
  * </pre>
  * 
  * @author acbart
@@ -122,10 +123,10 @@ public class JsonBusinessSearch implements AbstractBusinessSearch {
 
 	/**
 	 * Establishes a connection to the online Business Search service.
-	 * dataservice. This does not require an internet connection.
+	 * dataservice. This does not require an internet connection.<br><br>
 	 * 
 	 * Requires registration information from Yelp. To get your key go to
-	 * http://www.yelp.com/developers
+	 * <a href='http://www.yelp.com/developers'>http://www.yelp.com/developers</a>
 	 * 
 	 * @param consumerKey
 	 * @param consumerSecret
@@ -197,7 +198,7 @@ public class JsonBusinessSearch implements AbstractBusinessSearch {
 	}
 
 	/**
-	 * Convert a Request object to an injective hash.
+	 * Convert a Request object to an injective hash.<br><br>
 	 * 
 	 * An injective hash has no collisions. Hopefully that can't occur with
 	 * this.
