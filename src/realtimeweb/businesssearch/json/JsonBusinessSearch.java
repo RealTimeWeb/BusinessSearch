@@ -61,7 +61,8 @@ public class JsonBusinessSearch implements AbstractBusinessSearch {
 	private boolean storing = false;
 
 	/**
-	 * This method is for internal use only.
+	 * <b>This method is for internal use only.</b><br>
+	 * <br>
 	 * 
 	 * When the system is storing, any requests made to the online Yelp service
 	 * will be stored for future use. However, those requests will not be saved
@@ -88,7 +89,8 @@ public class JsonBusinessSearch implements AbstractBusinessSearch {
 	}
 
 	/**
-	 * This method is for internal use only.
+	 * <b>This method is for internal use only.</b><br>
+	 * <br>
 	 * 
 	 * Retrieves the singleton instance of the JsonBusinessSearch, optionally
 	 * turning recording on or off.
@@ -110,7 +112,7 @@ public class JsonBusinessSearch implements AbstractBusinessSearch {
 	 * A protected constructor to defeat instantation of this singleton.
 	 */
 	protected JsonBusinessSearch(boolean recording) {
-		setLocal();
+		disconnect();
 		setStoring(recording);
 		this.service = null;
 		this.accessToken = null;
@@ -133,21 +135,23 @@ public class JsonBusinessSearch implements AbstractBusinessSearch {
 	public void connect(String consumerKey, String consumerSecret,
 			String token, String tokenSecret) {
 		this.local = false;
-		this.service = new ServiceBuilder().provider(ServiceAuthentication.class)
-				.apiKey(consumerKey).apiSecret(consumerSecret).build();
+		this.service = new ServiceBuilder()
+				.provider(ServiceAuthentication.class).apiKey(consumerKey)
+				.apiSecret(consumerSecret).build();
 		this.accessToken = new Token(token, tokenSecret);
 	}
 
 	/**
-	 * Establishes that data should be retrieved locally. This does not require
-	 * an internet connection.
+	 * Establishes that data should be retrieved locally instead of from the
+	 * online service. This is the default behavior for the BusinessSearch.<br>
+	 * <br>
 	 * 
 	 * If data is being retrieved locally, you must be sure that your parameters
 	 * match locally stored data. Otherwise, you will get nothing in return.
 	 * 
 	 * @param local
 	 */
-	public void setLocal() {
+	public void disconnect() {
 		this.local = true;
 	}
 

@@ -1,7 +1,4 @@
 Todo:
- * Should local be the default? Already have the connect() method to make
-   remote connections, so maybe if you do nothing, you get the local data
-   store?
 
  * Must be built with Java 6 to support Android, not Java 7
    
@@ -23,3 +20,7 @@ Done:
    businessSearchFailed, businessDataCompleted, businessDataFailed...
    
  * Update Docs for listeners
+
+ * Should local be the default? Already have the connect() method to make
+   remote connections, so maybe if you do nothing, you get the local data
+   store?

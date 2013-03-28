@@ -27,6 +27,6 @@ public interface AbstractBusinessSearch {
 	 * match locally stored data. Otherwise, you will get nothing in return.
 	 * @param spoofing
 	 */
-	public void setLocal();
+	public void disconnect();
 
 }

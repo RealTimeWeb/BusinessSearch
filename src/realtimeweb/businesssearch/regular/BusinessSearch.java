@@ -151,13 +151,13 @@ public class BusinessSearch implements AbstractBusinessSearch {
 	 * 
 	 * @param local
 	 */
-	public void setLocal() {
-		this.structuredBusinessSearch.setLocal();
+	public void disconnect() {
+		this.structuredBusinessSearch.disconnect();
 	}
 
 	public static void main(String[] args) {
 		final BusinessSearch bs = BusinessSearch.getInstance();
-		bs.setLocal();
+		bs.disconnect();
 		/*bs.searchBusinesses(new BusinessQuery("Blacksburg, VfA"), new BusinessSearchListener() {
 
 			@Override

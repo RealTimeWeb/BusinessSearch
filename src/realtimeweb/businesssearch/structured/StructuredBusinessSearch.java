@@ -244,8 +244,8 @@ public class StructuredBusinessSearch implements AbstractBusinessSearch {
 	 * 
 	 * @param local
 	 */
-	public void setLocal() {
-		this.jsonBusinessSearch.setLocal();
+	public void disconnect() {
+		this.jsonBusinessSearch.disconnect();
 	}
 
 }
