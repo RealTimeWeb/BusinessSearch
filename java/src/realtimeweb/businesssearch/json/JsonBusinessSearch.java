@@ -123,10 +123,11 @@ public class JsonBusinessSearch implements AbstractBusinessSearch {
 
 	/**
 	 * Establishes a connection to the online Business Search service.
-	 * dataservice. This does not require an internet connection.<br><br>
+	 * dataservice. This requires an internet connection.<br>
+	 * <br>
 	 * 
-	 * Requires registration information from Yelp. To get your key go to
-	 * <a href='http://www.yelp.com/developers'>http://www.yelp.com/developers</a>
+	 * Requires registration information from Yelp. To get your key go to <a
+	 * href='http://www.yelp.com/developers'>http://www.yelp.com/developers</a>
 	 * 
 	 * @param consumerKey
 	 * @param consumerSecret
@@ -198,7 +199,8 @@ public class JsonBusinessSearch implements AbstractBusinessSearch {
 	}
 
 	/**
-	 * Convert a Request object to an injective hash.<br><br>
+	 * Convert a Request object to an injective hash.<br>
+	 * <br>
 	 * 
 	 * An injective hash has no collisions. Hopefully that can't occur with
 	 * this.
@@ -335,24 +337,14 @@ public class JsonBusinessSearch implements AbstractBusinessSearch {
 		this.clientStore.save(source, append);
 	}
 
-	/*
-	 * public static void main(String[] args) { final JsonBusinessSearch jbs =
-	 * JsonBusinessSearch.getRecordingInstance();
-	 * jbs.connect("em86viPSqwmfF2PFfNsPEQ", "K7Dq24NKDMNNk-sz_-JMlAvDmSU",
-	 * "hbML2QjyBfh-fvw5PsiF71pVLt2m3AbZ", "ggqII8lp1foy0ttolsYrTIUAm7c");
-	 * jbs.searchBusinesses(new BusinessQuery("Blacksburg, VA"), new
-	 * JsonBusinessSearchListener() {
-	 * 
-	 * @Override public void onSuccess(String searchResponse) {
-	 * jbs.getBusinessData("gillies-cuisine-blacksburg", new
-	 * JsonBusinessDataListener() {
-	 * 
-	 * @Override public void onSuccess(String businessData) { try {
-	 * jbs.save("cache.json", false); System.out.println("Saved"); } catch
-	 * (IOException e) { // TODO Auto-generated catch block e.printStackTrace();
-	 * } }
-	 * 
-	 * }); } }); }
-	 */
+	public static void main(String[] args) {
+		final JsonBusinessSearch jbs = JsonBusinessSearch
+				.getRecordingInstance();
+		jbs.connect("em86viPSqwmfF2PFfNsPEQ", "K7Dq24NKDMNNk-sz_-JMlAvDmSU",
+				"hbML2QjyBfh-fvw5PsiF71pVLt2m3AbZ",
+				"ggqII8lp1foy0ttolsYrTIUAm7c");
+		
+		
+	}
 
 }

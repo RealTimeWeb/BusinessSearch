@@ -193,16 +193,6 @@ public class BusinessSearch implements AbstractBusinessSearch {
 
 	public static void main(String[] args) {
 		final BusinessSearch bs = BusinessSearch.getInstance();
-		bs.disconnect();
-		/*
-		 * bs.searchBusinesses(new BusinessQuery("Blacksburg, VfA"), new
-		 * BusinessSearchListener() {
-		 * 
-		 * @Override public void onSuccess(SearchResponse searchResponse) {
-		 * System.out.println(searchResponse); }
-		 * 
-		 * });
-		 */
 		bs.getBusinessData("gillies-cuisine-blacksburg",
 				new BusinessDataListener() {
 
