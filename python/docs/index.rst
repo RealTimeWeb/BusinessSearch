@@ -3,14 +3,14 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to simplebusiness's documentation!
-=========================================
+Welcome to Business Search's documentation!
+===========================================
 
 Contents:
 
 .. toctree::
    :maxdepth: 2
-   
+
 Data Classes
 ------------
 
@@ -19,7 +19,7 @@ Data Classes
     :members:
     :special-members: __init__
 
-    
+
 Functions
 ---------
 

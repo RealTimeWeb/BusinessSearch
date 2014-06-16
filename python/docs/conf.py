@@ -13,7 +13,7 @@
 
 import sys, os
 sys.path.insert(0, os.path.abspath('.'))
-sys.path.insert(0, os.path.abspath('./simplebusiness/'))
+sys.path.insert(0, os.path.abspath('../src/'))
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -42,7 +42,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'simplebusiness'
+project = u'BusinessSearch'
 copyright = u'2013, Cory Bart'
 
 # The version info for the project you're documenting, acts as replacement for
