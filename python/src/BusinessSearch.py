@@ -19,9 +19,9 @@ CONSUMER_SECRET = "your key goes here"
 ACCESS_TOKEN = "your key goes here"
 ACCESS_TOKEN_SECRET = "your key goes here"
 # Remove these lines; we just do this for our own simplicity
-with open('../src/secrets.txt', 'r') as secrets:
-    CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET = \
-        [l.strip() for l in secrets.readlines()]
+# with open('../src/secrets.txt', 'r') as secrets:
+#     CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET = \
+#         [l.strip() for l in secrets.readlines()]
 
 # Auxilary
 
@@ -165,32 +165,39 @@ def _save_cache(filename="cache.json"):
     with open(filename, 'w') as f:
         json.dump({"data": _CACHE, "metadata": ""}, f)
 
+# TODO Need to uncomment
+# def _lookup(key):
+#     """
+#     Internal method that looks up a key in the local cache.
+#
+#     :param key: Get the value based on the key from the cache.
+#     :type key: string
+#     :returns: void
+#     """
+#     if key not in _CACHE:
+#         return ""
+#     if _CACHE_COUNTER[key] >= len(_CACHE[key][1:]):
+#         if _CACHE[key][0] == "empty":
+#             return ""
+#         elif _CACHE[key][0] == "repeat" and _CACHE[key][1:]:
+#             return _CACHE[key][-1]
+#         elif _CACHE[key][0] == "repeat":
+#             return ""
+#         else:
+#             _CACHE_COUNTER[key] = 1
+#     else:
+#         _CACHE_COUNTER[key] += 1
+#     if _CACHE[key]:
+#         return _CACHE[key][_CACHE_COUNTER[key]]
+#     else:
+#         return ""
 
-def _lookup(key):
-    """
-    Internal method that looks up a key in the local cache.
+def _lookup(filename):
 
-    :param key: Get the value based on the key from the cache.
-    :type key: string
-    :returns: void
-    """
-    if key not in _CACHE:
-        return ""
-    if _CACHE_COUNTER[key] >= len(_CACHE[key][1:]):
-        if _CACHE[key][0] == "empty":
-            return ""
-        elif _CACHE[key][0] == "repeat" and _CACHE[key][1:]:
-            return _CACHE[key][-1]
-        elif _CACHE[key][0] == "repeat":
-            return ""
-        else:
-            _CACHE_COUNTER[key] = 1
-    else:
-        _CACHE_COUNTER[key] += 1
-    if _CACHE[key]:
-        return _CACHE[key][_CACHE_COUNTER[key]]
-    else:
-        return ""
+    with open('response.json', 'r') as f:
+        data = json.load(f)
+
+    return data
 
 
 def connect():
@@ -323,7 +330,7 @@ class Business(object):
 
 # Service Methods
 
-def _fetch_business_info(business):
+def _fetch_business_info(params):
     """
     Internal method to form and query the server
 
@@ -331,7 +338,7 @@ def _fetch_business_info(business):
     :returns: the JSON response object
     """
     baseurl = 'http://api.yelp.com/v2/business/'
-    query = baseurl + business
+    query = _urlencode(baseurl, params)
 
     if PYTHON_3:
         try:
@@ -362,15 +369,17 @@ def _fetch_business_info(business):
     return json_res
 
 
-def get_business_information(business):
+def get_business_information(term, location):
     """
     Forms and poses the query to get information from the database
-    :param business: the business to search
+    :param str term: The term to search for ex. 'food'
+    :param str location: The zip code or state to use in the search
     :return: the JSON response
     """
-    if not isinstance(business, str):
+    if not isinstance(term, str) or not isinstance(location, str):
         raise BusinessSearchException("Please enter a valid query")
 
-    json_res = _fetch_business_info(business)
+    params = {'term': term, 'location': location}
+    json_res = _fetch_business_info(params)
     business = Business._from_json(json_res)
     return business._to_dict()
